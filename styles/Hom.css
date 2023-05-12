@@ -1,0 +1,201 @@
+
+
+nav{
+
+  background-color: #25364b;
+}
+nav p {
+margin-left: 30px;
+align-self: center;
+font-size: 35px;
+font-style: normal;
+}
+
+.information{
+    height: 90px;
+  background-color: ;
+  padding: 0px 0px 0px 200px;
+  margin: 0px 0px 0px 200px;
+  display: flex;
+  flex-direction: column;
+    flex-wrap: wrap;
+    align-content: center;
+}
+
+
+/* main */
+main{
+width: 100%;
+height: 504px;
+background-color: ;
+
+}
+
+/* enter your css here */
+
+*{
+
+  padding: 0px;
+  margin: 0px;
+
+}
+
+
+
+
+img{
+
+    height: 30px;
+    width: 30px;
+}
+.d-flex {
+    display: flex!important;
+    align-content: center;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: baseline;
+  }
+
+.alert.m-5 {
+
+  border: solid  ;
+  border-radius: 20px;
+}
+.col-sm-1{
+
+  border-right: solid black 3px;
+
+
+}
+
+
+.col{
+  width: 150px;
+  margin: 50px;
+  padding: 50px;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  transition: background-color 0.3s ease-in-out;
+  background-color: #557591;
+  color: #fff;
+}
+
+
+.col i {
+
+
+  size: 100px;
+
+}
+.col p {
+
+  color:#ffffff;
+  text-align:center;
+  vertical-align:text-top;
+  font-size:22px;
+  font-family:Saira Condensed;
+  width: 225px;
+}
+
+
+.cards {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 70px 0px ;
+}
+
+.row {
+
+
+}
+
+
+
+.col:hover,
+.col:focus {
+  background-color: #007bff;
+}
+
+.fa {
+  font-size: 50px;
+  margin-bottom: 10px;
+}
+
+
+
+/* footer css*/
+footer{
+  background: #25364b;
+  height: auto;
+  display: flex;
+  width: 100%;
+  font-family: monospace;
+  padding-top: 40px;
+  color: #fff;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-content: center;
+}
+.footer-contact{
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+}
+.footer-content h3{
+
+  font-size: 15px;
+  text-transform: capitalize;
+
+
+}
+.footer-contact p {
+  max-width: 500px;
+  margin: 15px auto;
+  line-height: 25px;
+  font-size: 323px;
+}
+
+.footerHelp{
+
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 2px 50px ;
+  padding: 0px 20px ;
+}
+.footerHelp li {
+  margin: 0 10px;
+}
+.footerHelp a {
+
+  text-decoration: none;
+  color: #fff;
+}
+.footerHelp a i {
+
+  font-size: 1.1rem;
+  transition: color .4s ease ;
+}
+
+.footerHelp a:hover  {
+
+  color: #7799D8;
+}
+.footer-bottom{
+
+  font-size: 14px;
+  word-spacing: 2px;
+  text-decoration: capitalize;
+
+}

@@ -1,0 +1,142 @@
+*{
+
+  padding: 0px;
+  margin: 0px;
+
+}
+
+
+.nev{
+
+  width: 100%;
+  height: 20%;
+  background-color: #25364b;
+  display: flex;
+  flex-direction: row;
+    flex-wrap: wrap;
+    align-content: center;
+    align-items: center;
+
+}
+.nev img {
+  margin: 10px;
+  width: 50px;
+  height: 70px;
+
+}
+.nev h1{
+  text-align:center;
+  color:#FFFFFF;
+  font-family: Saira Condensed;
+  flex: auto;
+}
+
+.lo{
+  height: 30px;
+}
+
+main{
+
+  height: 70%;
+
+}
+
+img{
+
+    height: 30px;
+    width: 30px;
+}
+.d-flex {
+    display: flex!important;
+    align-content: center;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: baseline;
+  }
+
+.alert.m-5 {
+
+  border: solid  ;
+  border-radius: 20px;
+}
+.col-sm-1{
+
+  border-right: solid black 3px;
+
+
+}
+
+
+.col{
+  width: 150px;
+  margin: 50px;
+  padding: 50px;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  transition: background-color 0.3s ease-in-out;
+  background-color: #557591;
+  color: #fff;
+}
+
+
+.col i {
+
+
+  size: 100px;
+
+}
+.col p {
+
+  color:#ffffff;
+  text-align:center;
+  vertical-align:text-top;
+  font-size:22px;
+  font-family:Saira Condensed;
+  width: 225px;
+}
+
+
+.cards {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 70px 0px ;
+}
+
+.row {
+
+
+}
+
+
+
+.col:hover,
+.col:focus {
+  background-color: #007bff;
+}
+
+.fa {
+  font-size: 50px;
+  margin-bottom: 10px;
+}
+
+footer{
+  background-color: #25364b;
+  height: 100px;
+
+  }
+  footer p {
+
+    color:#ffffff;
+  text-align:center;
+  vertical-align:text-top;
+  font-size:22px;
+  font-family:Saira Condensed;
+  line-height:auto;
+  }

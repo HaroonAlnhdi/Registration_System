@@ -1,0 +1,28 @@
+
+
+nav{
+
+  background-color: #25364b;
+}
+nav p {
+margin-left: 30px;
+align-self: center;
+font-size: 35px;
+font-style: normal;
+}
+
+.information{
+    height: 90px;
+  background-color: ;
+  padding: 0px 0px 0px 200px;
+  margin: 0px 0px 0px 200px;
+  display: flex;
+  flex-direction: column;
+    flex-wrap: wrap;
+    align-content: center;
+}
+.log
+{
+
+
+}

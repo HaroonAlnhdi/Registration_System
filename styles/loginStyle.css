@@ -1,0 +1,163 @@
+*{
+
+  padding: 0px;
+  margin: 0px;
+}
+
+ 
+.nev{
+
+  width: 100%;
+  height: 100px;
+  background-color: #25364b;
+  display: flex;
+  flex-direction: row;
+    flex-wrap: wrap;
+    align-content: center;
+    align-items: center;
+
+}
+.nev img {
+  margin: 10px;
+  width: 50px;
+  height: 70px;
+
+}
+.nev h1{
+  text-align:center;
+  color:#FFFFFF;
+  font-family: Saira Condensed;
+  flex: auto;
+}
+
+.lo{
+  height: 30px;
+}
+
+/*Main style*/
+main{
+
+  height: 530px;
+}
+.mainrow {
+
+    display: flex;
+    flex-wrap: wrap;
+
+}
+
+.picture,
+.loginpnal {
+
+    height: 530px;
+    width: 50%;
+}
+
+.pic {
+
+    width: 100%;
+    height: 100%;
+}
+
+
+.loginpnal {
+
+    background-color: #d9d9d9;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+
+}
+
+
+
+.loginpnal h1 {
+
+      
+    background-color:#25364b;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 62px;
+    text-align: center;
+
+    color: #FFFFFF;
+
+}
+
+.info {
+
+    width: 60%;
+    margin-left: 100px;
+    padding: 5px 20px;
+    border: solid 2px ;
+    border-radius: 15px 15px 90px 15px;
+}
+
+.info p {
+
+    font-family: Saira Condensed;
+    font-style: normal;
+    font-size: 16px;
+    color: #040404;
+    padding: 3px;
+}
+
+.info a {
+
+    font-family: Saira Condensed;
+    font-style: normal;
+    font-size: 10px;
+    color: #6F95F8;
+    text-transform: inherit;
+    text-decoration: none;
+
+}
+
+.ue {
+    width: 90%;
+    height: 5px;
+    background: #FFFFFF;
+    border-radius: 5px;
+    padding: 20px 0px;
+
+}
+
+.SiginBytton ,.loginpnal h1{
+  font-family: Saira Condensed ;
+    color: white;
+    width: 93%;
+    height: 40px;
+    background: #25364b;
+    border-radius: 5px;
+    margin: 30px 0px;
+}
+
+.SiginBytton:hover {
+
+    width: 93%;
+
+    background: #ff9129cc;
+}
+
+
+/*footer */
+footer{
+background-color: #25364b;
+height: 100px;
+
+}
+footer p {
+
+  color:#ffffff;
+text-align:center;
+vertical-align:text-top;
+font-size:22px;
+font-family:Saira Condensed;
+line-height:auto;
+}
+
+
