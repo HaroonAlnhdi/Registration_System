@@ -48,7 +48,7 @@
                 $stmts = $db->prepare("insert into Student (Student_ID, CPR, Fname, Lname, cred_pass, cred_reg, GPA, Colleage, Major, Email, Gender, Contact_phone, Address) 
                   values (:student_id, :cpr, :first_name, :last_name, :credit_pass, :credit_reg, :gpa, :college, :major, :email, :gender, :contact_phone, :Address)");
 
-                // Remove unnecessary variable assignments
+                
                 $stmts->bindParam(':student_id', $student_id);
                 $stmts->bindParam(':cpr', $cpr);
                 $stmts->bindParam(':first_name', $first_name);
