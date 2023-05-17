@@ -13,7 +13,7 @@ font-style: normal;
 
 .information{
     height: 90px;
-  background-color: ;
+  
   padding: 0px 0px 0px 200px;
   margin: 0px 0px 0px 200px;
   display: flex;
@@ -21,52 +21,114 @@ font-style: normal;
     flex-wrap: wrap;
     align-content: center;
 }
-.dropdown a {
-
-  text-decoration: none;
-  color: #fff;
-}
-
-ul.dropdown  {
-list-style: none;
-}
- ul li ul.dropdown li {
-display: block;
-padding: 2px;
-
-}
-ul li ul.dropdown  {
-  width: 250px;
-  color: #fff;
- background-color: #25364b;
- position: absolute;
- z-index: 999;
- display: none;
-}
-ul li a:hover {
-
-}
-ul li:hover ul.dropdown {
-  display: block;
-
-}
-
-.dropdown li a:hover {
-  color: #7799D8;
-  margin: 0px 2px;
-
-}
 
 
 /* main */
 main{
 width: 100%;
 height: 504px;
-background-color: ;
+
 
 }
 
 /* enter your css here */
+
+*{
+
+  padding: 0px;
+  margin: 0px;
+
+}
+
+
+
+
+img{
+
+    height: 30px;
+    width: 30px;
+}
+.d-flex {
+    display: flex!important;
+    align-content: center;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: baseline;
+  }
+
+.alert.m-5 {
+
+  border: solid  ;
+  border-radius: 20px;
+}
+.col-sm-1{
+
+  border-right: solid black 3px;
+
+
+}
+
+
+.col{
+  width: 150px;
+  margin: 50px;
+  padding: 50px;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  transition: background-color 0.3s ease-in-out;
+  background-color: #557591;
+  color: #fff;
+}
+
+
+.col i {
+
+
+  size: 100px;
+
+}
+.col p {
+
+  color:#ffffff;
+  text-align:center;
+  vertical-align:text-top;
+  font-size:22px;
+  font-family:Saira Condensed;
+  width: 225px;
+}
+
+
+.cards {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 70px 0px ;
+}
+
+.row {
+
+
+}
+
+
+
+.col:hover,
+.col:focus {
+  background-color: #007bff;
+}
+
+.fa {
+  font-size: 50px;
+  margin-bottom: 10px;
+}
+
+
 
 /* footer css*/
 footer{

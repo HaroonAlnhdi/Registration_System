@@ -3,16 +3,15 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Home Page</title>
-
+    <title>Nev</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
 
-    <link rel="stylesheet" href="styles/Main.css">
+    <link rel="stylesheet" href="\Project\styless\Home.css">
+    <link rel="stylesheet" href="\Project\styless\Home2.css">
   <!-- icons -->
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous"/>
 
 <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
-
 
 
 <link rel="stylesheet" href="styles/Hom.css">
@@ -32,25 +31,39 @@
       <img class="d-inline-block align-center p-1" src="img/lo.png" width="90" height="90"/>
       University Of Bahrain
       </a>
-    <button
-  type="button"
-  data-bs-toggle="collapes"
-  data-bs-target="#nevbarNav"
-  class="navbar-toggler"
-  aria-controls="nevbarNav"
-  aria-expanded="false"
-  aria-label="toggle navigation"
-    >
-  <span class="navbar-toggle-icon"></span>
-    </button>
+
       <div class="collapes navbar-collapes" id="nevbarNav">
         <ul class="navbar-nav">
-          <li class="nav-item active ">
 
+
+          <li class="nav-item active ">
             <a href="#" class="nav-link active ">
               <i class="fas fa-list">
-             </i>
-            </a>
+             </i></a>
+             <ul class="dropdown">
+               <li style="font-weight: bold;">Viewing:</li>
+               <ul>
+                 <li><a href="acadmicPlan.php">Academic Plan</a></li>
+                 <li><a href="Attendance.php">Attendance</a></li>
+                 <li><a href="Schedule.php">Schedule</a></li>
+                 <li><a href="Financial.php">Financial Information</a></li>
+                 <li><a href="Inbox.php">Inbox</a></li>
+               </ul>
+
+
+               <li style="font-weight: bold;">evaluate:</li>
+               <ul>
+                 <li><a href="Evaluation.php">Course Evaluation</a></li>
+               </ul>
+
+
+               <li style="font-weight: bold;" >Reports:</li>
+               <ul>
+                 <li ><a href="Transcript.php">Transcript</a></li>
+               </ul>
+
+             </ul>
+
 
           </li>
           <li class="nav-item active ">
@@ -113,7 +126,6 @@
     <div class="container">
       <!-- Enter your code here  -->
 
-
       <!--Alert-->
       <div class="alert bg-secondary m-5">
         <div class="row">
@@ -141,6 +153,7 @@
           </div>
         </div>
       </div>
+
     </div>
 
   </main>

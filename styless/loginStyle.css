@@ -37,7 +37,7 @@
 /*Main style*/
 main{
 
-  height: 530px;
+  height: 525px;
 }
 .mainrow {
 
@@ -143,11 +143,24 @@ main{
     background: #ff9129cc;
 }
 
+  /*Error Message */
+   #user_error , #pass_error  {
+      margin-top: 5px;
+      font-size: 14px;
+      color: #c62828;
+      background: rgba(255, 0, 0, 0.1);
+      text-align: center;
+      padding: 3px 3px ;
+      border-radius: 3px;
+      border: 1px solid #Ef9a9a;
+      display: none;
+  }
+
 
 /*footer */
 footer{
 background-color: #25364b;
-height: 100px;
+height: 138px;
 
 }
 footer p {
