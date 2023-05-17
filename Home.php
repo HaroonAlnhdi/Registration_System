@@ -109,7 +109,7 @@
 
       <ul class=" log navbar-nav">
       <li class="nav-item active ">
-        <a href="#" class="nav-link active ">
+        <a href="login.php" class="nav-link active ">
       <i class="fas fa-solid fa-arrow-right"></i>
 
           Logout

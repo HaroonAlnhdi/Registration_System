@@ -3,133 +3,77 @@
 
 
 <?php
-	if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // require('session.php');
-	extract($_POST);
-
-	if(isset($save))
-	{
-	function validate($data) {
-
-	$data = trim($data);
-	$data = stripslashes($data);
-	$data = htmlspecialchars($data);
-	return $data;
-	}
-
-  $student_id= validate($student_id);
-	$cpr= validate($cpr);
-	$first_name=validate($first_name);
-	$last_name=validate($last_name);
-  $college= validate($college);
-  $major= validate($major);
-  $gender= validate($gender);
-  $email= validate($email);
-  $address= validate($address);
-  $credit_reg= validate($credit_reg);
-  $credit_pass= validate($credit_pass);
-  $gpa= validate($gpa);
-  $contact_phone =validate($contact_phone);
-/*
-	if(empty($na)){
-			header("Location: AddNewEmployee.php?error= Name is Required");
-	}
-	else if(empty($Eid)){
-			header("Location: AddNewEmployee.php?error= Employee ID is Required");
-	}
-		else if(empty($salarys))
-		{
-					header("Location: AddNewEmployee.php?error= Salary is Required");
-		}
-			else {
-				echo "Valid input";
-			}
-      */
-
-      if($studentId ===''||$cpr ===''|| $college ===''||
-        $major ===''|| $gender ===''|| $email ===''|| 
-        $contact_phone ===''|| $address ===''|| $creditReg ===''||
-        $creditPass ===''|| $gpa==='' ){
-
-          echo '<script>';
-          echo  'danger.style.display="block";';
-          echo '</script>';
-
-        }
-
-        } 
-
-
-
-	//insert data :
-
-		try{
-			require('connection.php');
-
-
-			$db->beginTransaction();
-
-		$stmts=$db->prepare
-		("insert into Student (Student_ID,CPR,Fname,Lname,cred_pass,cred_reg,GPA,Colleage,Major,Email,Gender,Contact_phone,Address) 
-                  values (:student_id ,:cpr, :first_name, :last_name,:credit_pass,:credit_reg,:gpa,:college,:major,:email,:gender,:contact_phone,:Address)");
-    $stmts->bindParam(':student_id', $student_id);
-		$stmts->bindParam(':cpr', $cpr);
-		$stmts->bindParam(':first_name', $first_name);
-		$stmts->bindParam(':last_name', $last_name);
-    $stmts->bindParam(':credit_pass', $credit_pass);
-    $stmts->bindParam(':credit_reg', $credit_reg);
-    $stmts->bindParam(':gpa', $gpa);
-    $stmts->bindParam(':college', $college);
-    $stmts->bindParam(':major', $major);
-    $stmts->bindParam(':email', $email);
-    $stmts->bindParam(':gender', $gender);
-    $stmts->bindParam(':contact_phone', $contact_phone);
-    $stmts->bindParam(':Address', $Address);
+    $error = false;
+    $success = false;
 
     
-    $student_id=$student_id;
-		$cpr=$cpr;
-		$first_name=$first_name;
-		$last_name=$last_name;
-    $credit_pass=$credit_pass;
-    $credit_reg=$credit_reg;
-    $gpa=$gpa;
-    $college=$college;
-    $major=$major;
-    $email=$email;
-    $gender=$gender;
-    $contact_phone=$contact_phone;
-    $Address=$Address;
-		$stmts->execute();
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        extract($_POST);
 
-		$db->commit();
+        if (isset($save)) {
+            function validate($data) {
+                $data = trim($data);
+                $data = stripslashes($data);
+                $data = htmlspecialchars($data);
+                return $data;
+            }
 
-		$db=null;
+            $student_id = validate($student_id);
+            $cpr = validate($cpr);
+            $first_name = validate($first_name);
+            $last_name = validate($last_name);
+            $college = validate($college);
+            $major = validate($major);
+            $gender = validate($gender);
+            $email = validate($email);
+            $address = validate($address);
+            $credit_reg = validate($credit_reg); 
+            $credit_pass = validate($credit_pass); 
+            $gpa = validate($gpa);
+            $contact_phone = validate($contact_phone);
+          }
+            if (
+                empty($student_id) || empty($cpr) || empty($college) ||
+                empty($major) || empty($gender) || empty($email) ||
+                empty($contact_phone) || empty($credit_reg) || 
+                empty($credit_pass) || empty($gpa) 
+            ) {
+                $error = true;
+            }
+         else {
+            try {
+                require('connection.php');
+                $db->beginTransaction();
 
-        /*if($stmts){
-    echo '<script>';
-    echo 'swal({
-      title: "Good job!",
-      text: "You clicked the button!",
-      icon: "success",
-    });';
-    echo '</>';
-        }*/
+                $stmts = $db->prepare("insert into Student (Student_ID, CPR, Fname, Lname, cred_pass, cred_reg, GPA, Colleage, Major, Email, Gender, Contact_phone, Address) 
+                  values (:student_id, :cpr, :first_name, :last_name, :credit_pass, :credit_reg, :gpa, :college, :major, :email, :gender, :contact_phone, :Address)");
 
+                // Remove unnecessary variable assignments
+                $stmts->bindParam(':student_id', $student_id);
+                $stmts->bindParam(':cpr', $cpr);
+                $stmts->bindParam(':first_name', $first_name);
+                $stmts->bindParam(':last_name', $last_name);
+                $stmts->bindParam(':credit_pass', $credit_pass);
+                $stmts->bindParam(':credit_reg', $credit_reg);
+                $stmts->bindParam(':gpa', $gpa);
+                $stmts->bindParam(':college', $college);
+                $stmts->bindParam(':major', $major);
+                $stmts->bindParam(':email', $email);
+                $stmts->bindParam(':gender', $gender);
+                $stmts->bindParam(':contact_phone', $contact_phone);
+                $stmts->bindParam(':Address', $address); // Change $Address to $address
 
-	}//end try..
-	catch(PDOException $ex)
-	{
-		$db->rollBack();
-		die($ex->getmessage());
-	}
-
-     
-}
-
-
+                $stmts->execute();
+                $db->commit();
+                $db = null;
+                $success = true;
+            } catch (PDOException $ex) {
+                $db->rollBack();
+                die($ex->getMessage());
+            }
+        }
+    }
 ?>
-
 
 
 
@@ -255,7 +199,7 @@
 
       <ul class=" log navbar-nav">
       <li class="nav-item active ">
-        <a href="#" class="nav-link active ">
+        <a href="login.php" class="nav-link active ">
       <i class="fas fa-solid fa-arrow-right"></i>
 
           Logout
@@ -401,8 +345,13 @@
                     <button name="cancle" type="submit" class="btn btn-danger">Cancel</button>
                 </div>
                 <div class="col-6 m-2">
-                      <div class="success" id="success" style="font-size:20px; color:green; position:absolute; display:none; ">SuccessFully Enters </div>
-                      <div class="danger" id="danger" style="font-size:20px; color:red; position:absolute; display:none; ">Felids Can't be Empty !</div>
+                      
+                 <?php if ($error) { ?>
+                  <div class="danger" style="font-size:20px; color:red; position:absolute;">Fields Can't be Empty!</div>
+          <?php } else if ($success) { ?>
+            <div class="success" style="font-size:20px; color:green; position:absolute;">Form submitted successfully!</div>
+            <?php } ?>
+
                 </div>
 
                 
@@ -457,6 +406,6 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-    <script src="Js/StudentInfo.js"></script>
+    
   </body>
 </html>
