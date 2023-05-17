@@ -169,17 +169,17 @@
 
       <ul class="footerHelp">
         <li>
-          <a href="#">contact us</a>
+          <a href="https://www.uob.edu.bh/contact/">contact us</a>
           <i class=" fas fa-solid fa-phone"></i>
         </li>
 
         <li>
-          <a href="#">About Us</a>
+          <a href="aboutUs.php">About Us</a>
           <i class="fas fa-regular fa-address-card"></i>
         </li>
 
         <li>
-          <a href="#">Help</a>
+          <a href="Help.php">Help</a>
           <i class="fas fa-question"></i>
         </li>
       </ul>
