@@ -107,7 +107,7 @@
   <body>
   <form action="" method="post">
       <nav class="navbar  navbar-expand-sm navbar-dark ">
-      <a href="#"
+      <a href="AdminHome.php"
       class="navbar-brand mb-0 h1" >
       <img class="d-inline-block align-center p-1" src="img/lo.png" width="90" height="90"/>
       University Of Bahrain

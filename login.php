@@ -29,11 +29,11 @@ if(isset($Signin))
 
 
 		if($row[3]=='admin')
-    header("Location: adminHomePage.php");
+    header("Location: AdminHome.php");
 		else if($row[3]=='student')
     header("Location: Home.php?stID=$row[1]");	
     else {
-      header("Location: ProfessorHomePage.php");
+      header("Location: ProfessorHome.php");
     }
 		}
         else 
