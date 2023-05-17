@@ -49,6 +49,12 @@
                     $stmts->bindParam(':Salary', $Salary); 
 
                     $stmts->execute();
+                    // Insert data into users table
+                    $stmtu = $db->prepare("insert into users (username, password,usertype) values (:PID, :CPR, 'Professor')");
+                    $stmtu->bindParam(':PID', $PID);
+                    $stmtu->bindParam(':CPR', $CPR);
+                    $stmtu->execute();
+
                     $db->commit();
                     $db = null;
                     $success = true;
