@@ -61,7 +61,7 @@
                 $stmts->bindParam(':email', $email);
                 $stmts->bindParam(':gender', $gender);
                 $stmts->bindParam(':contact_phone', $contact_phone);
-                $stmts->bindParam(':Address', $address); // Change $Address to $address
+                $stmts->bindParam(':Address', $address); 
 
                 $stmts->execute();
                 $db->commit();
@@ -320,10 +320,10 @@
                     <label for="inputCredit" class="form-label">Credit Registered :</label>
                     <input name="credit_reg" type="text" class="form-control" id="inputCredit">
                     </div>
-                    <div class="col-md-4">
+                   <!-- <div class="col-md-4">
                     <label for="inputCredit" class="form-label">Photo</label>
                     <input type="text" class="form-control" id="inputCredit">
-                    </div>
+                    </div> -->
           
                           </div>
 

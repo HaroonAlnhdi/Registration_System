@@ -1,3 +1,74 @@
+<?php
+    $error = false;
+    $success = false;
+
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        extract($_POST);
+
+        if (isset($save)) {
+            function validate($data) {
+                $data = trim($data);
+                $data = stripslashes($data);
+                $data = htmlspecialchars($data);
+                return $data;
+            }
+
+            $PID = validate($PID);
+            $CPR = validate($CPR);
+            $first_name = validate($first_name);
+            $last_name = validate($last_name);
+            $Department = validate($Department);
+            $DepNumber = validate($DepNumber);
+            $gender = validate($gender);
+            $email = validate($email);
+            $address = validate($address);
+            $contact_phone = validate($contact_phone);
+            $Salary = validate($Salary);
+          }
+            if (empty($first_name) || empty($last_name) || empty($PID) || empty($CPR) || empty($Department) || empty($DepNumber) || empty($gender) || empty($email) ) 
+            {
+                $error = true;
+            } else {
+                try {
+                    require('connection.php');
+                    $db->beginTransaction();
+
+                    $stmts = $db->prepare(" insert into professor (PID, CPR, Fname, Lname, Department, OfficeNo, Contact_inf, email, gender, address, salary)
+                                                           values (:PID, :CPR, :first_name, :last_name, :Department, :DepNumber, :contact_phone, :email, :gender, :Address, :Salary)");
+
+                    $stmts->bindParam(':PID', $PID);
+                    $stmts->bindParam(':CPR', $CPR);
+                    $stmts->bindParam(':first_name', $first_name);
+                    $stmts->bindParam(':last_name', $last_name);
+                    $stmts->bindParam(':Department', $Department);
+                    $stmts->bindParam(':DepNumber', $DepNumber);
+                    $stmts->bindParam(':email', $email);
+                    $stmts->bindParam(':gender', $gender);
+                    $stmts->bindParam(':contact_phone', $contact_phone);
+                    $stmts->bindParam(':Address', $Address); 
+                    $stmts->bindParam(':Salary', $Salary); 
+
+                    $stmts->execute();
+                    $db->commit();
+                    $db = null;
+                    $success = true;
+                } catch (PDOException $ex) {
+                    $db->rollBack();
+                    die($ex->getMessage());
+                }
+            }
+        }
+    
+?>
+
+
+
+
+
+
+
+
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -28,7 +99,7 @@
 
   </head>
   <body>
-
+  <form action="" method="post">
       <nav class="navbar  navbar-expand-sm navbar-dark ">
       <a href="#"
       class="navbar-brand mb-0 h1" >
@@ -128,7 +199,7 @@
 <!-- start main  -->
   <main>
     <div class="container">
-      <!-- Enter your code here  -->
+      
 
         <!--Student Form-->
     <section id="form">
@@ -140,7 +211,7 @@
                     <span>Staff ID:</span>
                     <div class="input-group mb-3">
                         <span class="input-group-text" id="basic-addon1">ID</span>
-                        <input type="text" class="form-control" placeholder="Staff ID" aria-label="Username"
+                        <input name="PID" type="text" class="form-control" placeholder="Staff ID" aria-label="Username"
                             aria-describedby="basic-addon1">
                     </div>
                 </div>
@@ -148,7 +219,7 @@
                     <span>Staff CPR:</span>
                     <div class="input-group mb-3">
                         <span class="input-group-text" id="basic-addon1">CPR</span>
-                        <input type="text" class="form-control" placeholder="CPR" aria-label="Username"
+                        <input name="CPR" type="text" class="form-control" placeholder="CPR" aria-label="Username"
                             aria-describedby="basic-addon1">
                     </div>
                 </div>
@@ -156,7 +227,7 @@
                     <span>First Name:</span>
                     <div class="input-group mb-3">
                         <span class="input-group-text" id="basic-addon1">Name</span>
-                        <input type="text" class="form-control" placeholder="Staff Name " aria-label="Username"
+                        <input name="first_name" type="text" class="form-control" placeholder="Staff Name " aria-label="Username"
                             aria-describedby="basic-addon1">
                     </div>
                 </div>
@@ -164,7 +235,7 @@
                     <span>Last Name:</span>
                     <div class="input-group mb-3">
                         <span class="input-group-text" id="basic-addon1">Name</span>
-                        <input type="text" class="form-control" placeholder="Last Name" aria-label="Username"
+                        <input name="last_name" type="text" class="form-control" placeholder="Last Name" aria-label="Username"
                             aria-describedby="basic-addon1">
                     </div>
                 </div>
@@ -176,21 +247,20 @@
                 <!--Collage-->
                 <div class="col">
                     <span>Department:</span>
-                    <select class="form-select" aria-label="Default select example">
-                        <option selected>Select Department:</option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
+                    <select name="Department" class="form-select" aria-label="Default select example">
+                    <option value="Information Technology" selected>Information Technology</option>
+                        <option value="Department of Applied Studies">Department of Applied Studies</option>
+                        <option value="Department of Arts Bahrain">Department of Arts Bahrain</option>
                     </select>
                 </div>
                 <!--Collage No. -->
                 <div class="col">
                     <span>Department Number:</span>
-                    <select class="form-select" aria-label="Default select example">
-                        <option selected>Select Department:</option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
+                    <select name="DepNumber" class="form-select" aria-label="Default select example">
+                        <option selected>CS</option>
+                        <option value="Cs">CE</option>
+                        <option value="IS">IS</option>
+                        <option value="CE">LABS</option>
                     </select>
                 </div>
                 <!--Gender-->
@@ -198,14 +268,14 @@
                     <span>Gender:</span>
                     <!--Male-->
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+                        <input class="form-check-input"  value="Male" checked type="radio"  name="gender" id="flexRadioDefault1">
                         <label class="form-check-label" for="flexRadioDefault1">
                             Male
                         </label>
                     </div>
                     <!--Femail-->
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+                        <input value="Female" class="form-check-input" type="radio" name="gender" id="flexRadioDefault1">
                         <label class="form-check-label" for="flexRadioDefault1">
                             Female
                         </label>
@@ -216,15 +286,15 @@
             <form class="row g-3">
                 <div class="col-md-6">
                     <label for="inputEmail4" class="form-label">Email</label>
-                    <input type="email" class="form-control" id="inputEmail4">
+                    <input type="email" name="email"  class="form-control" id="inputEmail4">
                 </div>
                 <div class="col-md-6">
                     <label for="inputiphone" class="form-label">Iphone</label>
-                    <input type="number" class="form-control" id="inputiphone">
+                    <input type="number" name="contact_phone" class="form-control" id="inputiphone">
                 </div>
                 <div class="col-12">
                     <label for="inputAddress" class="form-label">Address</label>
-                    <input type="text" class="form-control" id="inputAddress" placeholder="City-Block-Building-apartment-street">
+                    <input name="address" type="text" class="form-control" id="inputAddress" placeholder="City-Block-Building-apartment-street">
                 </div>
                       <hr style="border: 2px solid #25364b ;">
 
@@ -232,17 +302,28 @@
                       
                 <div class="col-md-4">
                     <label for="inputCredit" class="form-label">Salary :</label>
-                    <input type="text" class="form-control" id="inputCredit">
+                    <input name="Salary" type="text" class="form-control" id="inputCredit">
                     </div>
+                    
+
                     
                     </div>
                 
-                <div class="col-5">
+                <div class="col-5 m-2">
                     
                 </div>
                 <div class="col-6">
-                    <button type="submit" class="btn btn-primary">Save</button>
-                    <button type="submit" class="btn btn-danger">Cancel</button>
+                    <button name="save" onclick="Message() type="submit" class="btn btn-primary">Save</button>
+                    <button name="cancle" type="submit" class="btn btn-danger">Cancel</button>
+                </div>
+                <div class="col-6 m-2">
+                      
+                 <?php if ($error) { ?>
+                  <div class="danger" style="font-size:20px; color:red; position:absolute;">Fields Can't be Empty!</div>
+          <?php } else if ($success) { ?>
+            <div class="success" style="font-size:20px; color:green; position:absolute;">Form submitted successfully!</div>
+            <?php } ?>
+
                 </div>
 
                 
@@ -251,7 +332,7 @@
     </section>
 
     </div>
-
+          </form>
   </main>
 
 <!-- end main  -->
@@ -295,5 +376,7 @@
 
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
   </body>
 </html>
