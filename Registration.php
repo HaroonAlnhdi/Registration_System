@@ -28,7 +28,7 @@
 
   </head>
   <body>
-
+    <form action="" method="post">
       <nav class="navbar  navbar-expand-sm navbar-dark ">
       <a href="#"
       class="navbar-brand mb-0 h1" >
@@ -339,6 +339,7 @@
 
 
     </div>
+    </form>
 
   </main>
 

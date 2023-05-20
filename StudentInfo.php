@@ -350,7 +350,7 @@
                 </div>
                 <div class="col-6">
                     <button name="save" onclick="Message()" type="submit" class="btn btn-primary">Save</button>
-                    <button name="cancle" type="submit" class="btn btn-danger">Cancel</button>
+                    <button name="cancle" type="reset" class="btn btn-danger">Cancel</button>
                 </div>
                 <div class="col-6 m-2">
                       
