@@ -21,72 +21,61 @@
             $ExamDate = validate($ExamDate);
             $Instructors = validate($Instructors);
             $CSections = validate($CSections);
-            
             $Rooms = validate($Rooms);
             $ExamTime = validate($ExamTime);
             $ExamRooms = validate($ExamRooms);
             $Department = validate($Department);
             $DepNumber = validate($DepNumber);
             $Description = validate($Description);
-           
-          }
+        }
+
             if (empty($CID) || empty($CName) || empty($CourseCode) || empty($CSections) ||  empty($Time) || empty($ExamDate) ||   empty($ExamTime) || empty($ExamRooms)  || empty($Instructors) ) 
             {
                 $error = true;
-            } else {
-                try {
-                    require('connection.php');
-                    $db->beginTransaction();
+            } else 
+            {
+                try  { 
+               require('connection.php');
+                $db->beginTransaction();
 
+                $stmt = $db->prepare("UPDATE courses SET CourseName=:CourseName, Code=:Code, CCredits=:CCredits, Time=:Time, Exame_Date=:ExamDate,
+                    Instructors=:Instructors, CSections=:CSections, Rooms=:Rooms, ExamTime=:ExamTime, ExamRooms=:ExamRooms, Department=:Department,
+                    DepNumber=:DepNumber, Description=:Description WHERE CourseID=:CourseID");
 
+                $stmt->bindParam(':CourseID', $CID);
+                $stmt->bindParam(':CourseName', $CName);
+                $stmt->bindParam(':Code', $CourseCode);
+                $stmt->bindParam(':CCredits', $CCredits);
+                $stmt->bindParam(':Time', $Time);
+                $stmt->bindParam(':ExamDate', $ExamDate);
+                $stmt->bindParam(':Instructors',$Instructors);
+                $stmt->bindParam(':CSections', $CSections);
+                $stmt->bindParam(':Rooms', $Rooms);
+                $stmt->bindParam(':ExamTime', $ExamTime);
+                $stmt->bindParam(':ExamRooms', $ExamRooms);
+                $stmt->bindParam(':Department', $Department);
+                $stmt->bindParam(':DepNumber', $DepNumber);
+                $stmt->bindParam(':Description', $Description);
+                $stmt->execute();
 
-                       $stmt = $db->prepare(" insert into courses (CourseID, CourseName, Code, CCredits, Time, Exame_Date, 
-                       Instructors, CSections, Rooms, ExamTime, ExamRooms, Department,
-                        DepNumber, Description) 
-                        VALUES (:CourseID, :CourseName, :Code, :CCredits, :Time,:ExamDate, :Instructors, :CSections, :Rooms, :ExamTime, :ExamRooms, :Department, :DepNumber, :Description)");
+                $stmts = $db->prepare("UPDATE section SET LactureTime=:Time, Instructor=:Instructors, CCode=:Code WHERE CName=:CourseID");
 
+                $stmts->bindParam(':CourseID', $CID);
+                $stmts->bindParam(':Time', $Time);
+                $stmts->bindParam(':Instructors', $Instructors);
+                $stmts->bindParam(':Code', $CourseCode);
+                $stmts->execute();
 
-                        $stmt->bindParam(':CourseID', $CID);
-                        $stmt->bindParam(':CourseName', $CName);
-                        $stmt->bindParam(':Code', $CourseCode);
-                        $stmt->bindParam(':CCredits', $CCredits);
-                        $stmt->bindParam(':Time', $Time);
-                        $stmt->bindParam(':ExamDate', $ExamDate);
-                        $stmt->bindParam(':Instructors',$Instructors);
-                        $stmt->bindParam(':CSections', $CSections);
-                        $stmt->bindParam(':Rooms', $Rooms);
-                        $stmt->bindParam(':ExamTime', $ExamTime);
-                        $stmt->bindParam(':ExamRooms', $ExamRooms);
-                        $stmt->bindParam(':Department', $Department);
-                        $stmt->bindParam(':DepNumber', $DepNumber);
-                        $stmt->bindParam(':Description', $Description);
-                        // Execute the SQL statement
-                        $stmt->execute();
-
-                             // insert into section table
-                             $stmts = $db->prepare("insert into section (  CName, LactureTime, Instructor, CCode,CourseID) 
-                                VALUES (  :CName, :LectureTime, :Instructors, :CCode,:CourseID)");
-                                $stmts->bindParam(':CourseID', $CID);
-                                $stmts->bindParam(':CName', $CName);
-                                $stmts->bindParam(':LectureTime', $Time);
-                                $stmts->bindParam(':Instructors', $Instructors);
-                                $stmts->bindParam(':CCode', $CourseCode);
-                                $stmts->execute();
-                    
-
-                    $db->commit();
-                    $db = null;
-                    $success = true;
-                } catch (PDOException $ex) {
-                    $db->rollBack();
-                    die($ex->getMessage());
-                }
+                $db->commit();
+                $db = null;
+                $success = true;
+            } catch (PDOException $ex) {
+                $db->rollBack();
+                die($ex->getMessage());
             }
         }
-    
+    }
 ?>
-
-
 
 
 
@@ -99,7 +88,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Add Courses</title>
+    <title>Update Courses</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
 
     <link rel="stylesheet" href="styless/StudentInfo.css">
@@ -120,7 +109,7 @@
         integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
 
 
-    <!--Font Awosome-->
+    <!--Font Awesome-->
 
   </head>
   <body>
@@ -229,8 +218,8 @@
         <!--Student Form-->
     <section id="form">
         <div class="m-5 p-5 border rounded">
-          <p style=" color:#25364b; font-size:30px; ">Add Courses</p>
-            <!-- ID & Name-->
+          <p style=" color:#25364b; font-size:30px; ">Update Courses</p>
+            <p style="color: red;">*Note: The update will depend on the Course ID.</p>
             <div class="row">
                 <div class="col">
                     <span>Course ID:</span>
@@ -415,12 +404,12 @@
         </li>
 
         <li>
-          <a href="#">About Us</a>
+          <a href="About.php">About Us</a>
           <i class="fas fa-regular fa-address-card"></i>
         </li>
 
         <li>
-          <a href="#">Help</a>
+          <a href="Help.php">Help</a>
           <i class="fas fa-question"></i>
         </li>
       </ul>
