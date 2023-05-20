@@ -60,9 +60,18 @@
                         $stmt->bindParam(':Department', $Department);
                         $stmt->bindParam(':DepNumber', $DepNumber);
                         $stmt->bindParam(':Description', $Description);
-                        
                         // Execute the SQL statement
                         $stmt->execute();
+
+                             // insert into section table
+                             $stmts = $db->prepare("insert into section (  CName, LactureTime, Instructor, CCode) 
+                                VALUES (  :CName, :LectureTime, :Instructors, :CCode)");
+        
+                                $stmts->bindParam(':CName', $CID);
+                                $stmts->bindParam(':LectureTime', $Time);
+                                $stmts->bindParam(':Instructors', $Instructors);
+                                $stmts->bindParam(':CCode', $CourseCode);
+                                $stmts->execute();
                     
 
                     $db->commit();
@@ -90,7 +99,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Manage Courses</title>
+    <title>Add Courses</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
 
     <link rel="stylesheet" href="styless/StudentInfo.css">
@@ -220,7 +229,7 @@
         <!--Student Form-->
     <section id="form">
         <div class="m-5 p-5 border rounded">
-          <p style=" color:#25364b; font-size:30px; ">Manage Courses</p>
+          <p style=" color:#25364b; font-size:30px; ">Add Courses</p>
             <!-- ID & Name-->
             <div class="row">
                 <div class="col">
