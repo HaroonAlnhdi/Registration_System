@@ -1,3 +1,12 @@
+
+<?php 
+
+require('auth.php');
+require('connection.php');
+extract($_REQUEST);
+?>
+
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -26,7 +35,7 @@
   <body>
 
       <nav class="navbar  navbar-expand-sm navbar-dark ">
-      <a href="#"
+      <a href="Home.php"
       class="navbar-brand mb-0 h1" >
       <img class="d-inline-block align-center p-1" src="img/lo.png" width="90" height="90"/>
       University Of Bahrain
@@ -43,7 +52,7 @@
              <ul class="dropdown">
                <li style="font-weight: bold;">Viewing:</li>
                <ul>
-                 <li><a href="acadmicPlan.php">Academic Plan</a></li>
+                 <li><a href="AcademicCalendar.php">Academic Plan</a></li>
                  <li><a href="Attendance.php">Attendance</a></li>
                  <li><a href="Schedule.php">Schedule</a></li>
                  <li><a href="Financial.php">Financial Information</a></li>
@@ -59,7 +68,7 @@
 
                <li style="font-weight: bold;" >Reports:</li>
                <ul>
-                 <li ><a href="Transcript.php">Transcript</a></li>
+                 <li ><a href="STranscript.php">Transcript</a></li>
                </ul>
 
              </ul>
@@ -67,7 +76,7 @@
 
           </li>
           <li class="nav-item active ">
-            <a href="main.php" class="nav-link active ">
+            <a href="Home.php" class="nav-link active ">
               <i class="fas fa-home">
              </i>
               Home
@@ -123,38 +132,73 @@
 
 <!-- start main  -->
   <main>
-    <div class="container">
+  <div class="container">
       <!-- Enter your code here  -->
 
       <!--Alert-->
       <div class="alert bg-secondary m-5">
         <div class="row">
           <div class="col-sm-1 d-flex"><img src="img/email.png" alt=""></div>
-          <div class="col-sm-11"><p ><span style="color:#ffffff;font-weight:bold">Your are out registration period</span></p></div>
+          <div class="col-sm-11"><p ><span style="color:#ffffff;font-weight:bold">Welcome</span></p></div>
         </div>
       </div>
 
       <hr style="border: solid; color: black; width: 100%; text-align:center; "/>
-
+      <p style=" color:#25364b; font-size:25px; text-align: center ">Quick Access</p>
       <!--Crads-->
+      <section id="form">
+        <div class="m-1 p-1 border rounded">
       <div class="cards">
-        <div class="row ">
-          <div class="col ">
-            <i class="fa fa-book" aria-hidden="true"></i>
-            <p>Schedule</p>
-          </div>
-          <div class="col ">
-            <i class="fa fa-code " aria-hidden="true"></i>
-            <p>Trandcript</p>
-          </div>
-          <div class="col ">
-            <i class="fa fa-calendar" aria-hidden="true"></i>
-            <p>Academic Calendar</p>
-          </div>
-        </div>
+
+
+                                      <div class="row ">
+
+                                <div  class="col ">
+                                  <a  href="Schedule.php">
+                                    <p>Schedule</p></a>
+                                    <i class="fa fa-book" aria-hidden="true"></i>
+                                  </div>
+                                  
+                                  <div  class="col ">
+                                  <a  href="STranscript.php">
+                                    <p>Transcript</p></a>
+                                    <i class="fa fa-book" aria-hidden="true"></i>
+                                  </div>
+
+                                  <div  class="col ">
+                                  <a  href="AcademicCalendar.php">
+                                    <p>Academic Calendar</p></a>
+                                    <i class="fa fa-book" aria-hidden="true"></i>
+                                  </div>
+
+                                  
+                                  <div  class="col ">
+                                <a  href="CalcGPA.php">
+                                  <p>GPA Calculator</p></a>
+                                  <i class="fa fa-book" aria-hidden="true"></i>
+                                </div>
+                                
+                                
+                                <div  class="col ">
+                                <a href="SShowAttendance.php?studentID=<?php echo $stID; ?>">
+                                  <p>Attendance</p></a>
+                                  <i class="fa fa-book" aria-hidden="true"></i>
+                                </div>
+
+                                <div  class="col ">
+                                <a  href="SGrades.php">
+                                  <p>Grades</p></a>
+                                  <i class="fa fa-book" aria-hidden="true"></i>
+                                </div>
+
+                                  
+                                </div>
+
       </div>
 
     </div>
+        
+      </section>
 
   </main>
 
@@ -190,6 +234,11 @@
 
 
 </div>
+
+<style>
+
+
+</style>
 
 
 </footer>

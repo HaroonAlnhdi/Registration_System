@@ -139,7 +139,7 @@
         <p style="  font-weight: bold; color:#25364b;  font-size:25px; text-align: center; ">Student Attendance</p>
         <hr style="border: #25364b solid 2px;">
         <?php
-// Establish a database connection
+
 $host = 'localhost';
 $user = 'root';
 $password = ' ';
@@ -163,7 +163,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $result = mysqli_query($connection, $query);
 
     if (mysqli_num_rows($result) > 0) {
-        // Display the dropdown list
+        
         echo "<form method='POST' action=''>";
         echo "<P class='pp'>Select a course:</p> ";
         echo "<select name='courseID'>";
