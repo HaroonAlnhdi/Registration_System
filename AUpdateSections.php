@@ -13,80 +13,50 @@
                 return $data;
             }
 
-            $CID = validate($CID);
-            $CName = validate($CName);
-            $CourseCode = validate($CourseCode);
-            $CCredits =validate($CCredits);
-            $Time = validate($Time);
-            $ExamDate = validate($ExamDate);
-            $Instructors = validate($Instructors);
-            $CSections = validate($CSections);
             
+            $CID = validate($CID);
             $Rooms = validate($Rooms);
-            $ExamTime = validate($ExamTime);
-            $ExamRooms = validate($ExamRooms);
-            $Department = validate($Department);
-            $DepNumber = validate($DepNumber);
-            $Description = validate($Description);
+            $Time = validate($Time);
+            $ETime = validate($ETime);
+            $Seats = validate($Seats);
+            $CName = validate($CName);
+            $Instructors = validate($Instructors);
            
-          }
-            if (empty($CID) || empty($CName) || empty($CourseCode) || empty($CSections) ||  empty($Time) || empty($ExamDate) ||   empty($ExamTime) || empty($ExamRooms)  || empty($Instructors) ) 
+        }
+
+            if ( empty($CID)  ||empty($CName) || empty($Rooms) || empty($Time) ||empty($ETime) ||empty($Seats) ||empty($Instructors)  ) 
             {
                 $error = true;
-            } else {
-                try {
-                    require('connection.php');
-                    $db->beginTransaction();
+            } else 
+            {
+                try  { 
+               require('connection.php');
+                $db->beginTransaction();
 
 
+                $stmts = $db->prepare("UPDATE section SET CName=:CName,  LactureTime=:Time, Instructor=:Instructors, Rooms=:Rooms, ETime=:ETime ,Seats=:Seats
+                 WHERE CourseID=:CourseID");
 
-                       $stmt = $db->prepare(" insert into courses (CourseID, CourseName, Code, CCredits, Time, Exame_Date, 
-                       Instructors, CSections, Rooms, ExamTime, ExamRooms, Department,
-                        DepNumber, Description) 
-                        VALUES (:CourseID, :CourseName, :Code, :CCredits, :Time,:ExamDate, :Instructors, :CSections, :Rooms, :ExamTime, :ExamRooms, :Department, :DepNumber, :Description)");
+                $stmts->bindParam(':CourseID', $CID);
+                $stmts->bindParam(':CName', $CName);
+                $stmts->bindParam(':Rooms', $Rooms);
+                $stmts->bindParam(':Time', $Time);
+                $stmts->bindParam(':ETime', $ETime);
+                $stmts->bindParam(':Seats', $Seats);
+                $stmts->bindParam(':Instructors', $Instructors);
+               
+                $stmts->execute();
 
-
-                        $stmt->bindParam(':CourseID', $CID);
-                        $stmt->bindParam(':CourseName', $CName);
-                        $stmt->bindParam(':Code', $CourseCode);
-                        $stmt->bindParam(':CCredits', $CCredits);
-                        $stmt->bindParam(':Time', $Time);
-                        $stmt->bindParam(':ExamDate', $ExamDate);
-                        $stmt->bindParam(':Instructors',$Instructors);
-                        $stmt->bindParam(':CSections', $CSections);
-                        $stmt->bindParam(':Rooms', $Rooms);
-                        $stmt->bindParam(':ExamTime', $ExamTime);
-                        $stmt->bindParam(':ExamRooms', $ExamRooms);
-                        $stmt->bindParam(':Department', $Department);
-                        $stmt->bindParam(':DepNumber', $DepNumber);
-                        $stmt->bindParam(':Description', $Description);
-                        // Execute the SQL statement
-                        $stmt->execute();
-
-                             // insert into section table
-                             $stmts = $db->prepare("insert into section (  CName, LactureTime, Instructor, CCode,CourseID) 
-                                VALUES (  :CName, :LectureTime, :Instructors, :CCode,:CourseID)");
-                                $stmts->bindParam(':CourseID', $CID);
-                                $stmts->bindParam(':CName', $CName);
-                                $stmts->bindParam(':LectureTime', $Time);
-                                $stmts->bindParam(':Instructors', $Instructors);
-                                $stmts->bindParam(':CCode', $CourseCode);
-                                $stmts->execute();
-                    
-
-                    $db->commit();
-                    $db = null;
-                    $success = true;
-                } catch (PDOException $ex) {
-                    $db->rollBack();
-                    die($ex->getMessage());
-                }
+                $db->commit();
+                $db = null;
+                $success = true;
+            } catch (PDOException $ex) {
+                $db->rollBack();
+                die($ex->getMessage());
             }
         }
-    
+    }
 ?>
-
-
 
 
 
@@ -99,7 +69,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Add Courses</title>
+    <title>Update Section</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
 
     <link rel="stylesheet" href="styless/StudentInfo.css">
@@ -120,7 +90,7 @@
         integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
 
 
-    <!--Font Awosome-->
+    <!--Font Awesome-->
 
   </head>
   <body>
@@ -229,8 +199,8 @@
         <!--Student Form-->
     <section id="form">
         <div class="m-5 p-5 border rounded">
-          <p style=" color:#25364b; font-size:30px; ">Add Courses</p>
-            <!-- ID & Name-->
+          <p style=" color:#25364b; font-size:30px; ">Update Section</p>
+            <p style="color: red;">*Note: The update will depend on the Course ID.</p>
             <div class="row">
                 <div class="col">
                     <span>Course ID:</span>
@@ -243,29 +213,15 @@
                 <div class="col">
                     <span>Course Name:</span>
                     <div class="input-group mb-3">
-                        <span class="input-group-text" id="basic-addon1">CN</span>
-                        <input name="CName" type="text" class="form-control" placeholder="Course Name" aria-label="Username"
+                        <span class="input-group-text" id="basic-addon1">Course Name</span>
+                        <input name="CName" type="text" class="form-control" placeholder="CourseName#Section" aria-label="Username"
                             aria-describedby="basic-addon1">
                     </div>
                 </div>
-                <div class="col">
-                    <span>Course Code:</span>
-                    <div class="input-group mb-3">
-                        <span class="input-group-text" id="basic-addon1">Code</span>
-                        <input name="CourseCode" type="text" class="form-control" placeholder="ITCSxxx " aria-label="Username"
-                            aria-describedby="basic-addon1">
-                    </div>
-                </div>
+               
 
-                <div class="row">
-                <div class="col">
-                <span>Sections :</span>
-                    <div class="input-group mb-3">
-                        <span class="input-group-text" id="basic-addon1">Section</span>
-                        <input name="CSections" type="text" class="form-control" placeholder=" " aria-label="Username"
-                            aria-describedby="basic-addon1">
-                    </div>
-                </div>
+                
+               
                 <div class="col">
                     <span>Rooms :</span>
                     <div class="input-group mb-3">
@@ -274,84 +230,41 @@
                             aria-describedby="basic-addon1">
                     </div>
                 </div>
-               </div>
-              
-                
                 
             </div>
 
             <div class="row">
-            <div class="col">
-                    <span>Credits :</span>
-                    <select name="CCredits" class="form-select" aria-label="Default select example">
-                        <option selected value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                    </select>
-                </div>
+            
                 <div class="col">
-                <span>Time :</span>
+                <span>From Time :</span>
                     <div class="input-group mb-3">
-                        <span class="input-group-text" id="basic-addon1">Time</span>
+                        <span class="input-group-text" id="basic-addon1">Starr Lecture Time</span>
                         <input name="Time" type="Time" class="form-control" placeholder=" HH:MM" aria-label="Username"
                             aria-describedby="basic-addon1">
                     </div>
                     
                 </div>
-            </div>
 
-            <div class="row">
-            <div class="col">
-            <span>Exam Date :</span>
-                    <div class="input-group mb-3">
-                        <span class="input-group-text" id="basic-addon1">Exam Date</span>
-                        <input name="ExamDate" type="date" class="form-control" placeholder=" :MM" aria-label="Username"
-                            aria-describedby="basic-addon1">
-                    </div>
-                </div>
                 <div class="col">
-                <span>Exam Time :</span>
+                <span>To Time :</span>
                     <div class="input-group mb-3">
-                        <span class="input-group-text" id="basic-addon1">Exam Time</span>
-                        <input name="ExamTime" type="Time" class="form-control" placeholder=" HH:MM" aria-label="Username"
+                        <span class="input-group-text" id="basic-addon1">End Lecture Time</span>
+                        <input name="ETime" type="Time" class="form-control" placeholder=" HH:MM" aria-label="Username"
                             aria-describedby="basic-addon1">
                     </div>
                     
                 </div>
-
                 <div class="col">
-                    <span>Exam Room :</span>
+                    <span>Section Seats :</span>
                     <div class="input-group mb-3">
-                        <span class="input-group-text" id="basic-addon1">Exam Room</span>
-                        <input name="ExamRooms" type="text" class="form-control" placeholder=" " aria-label="Username"
+                        <span class="input-group-text" id="basic-addon1">Seats</span>
+                        <input name="Seats" type="text" class="form-control" placeholder=" " aria-label="Username"
                             aria-describedby="basic-addon1">
                     </div>
                 </div>
             </div>
 
-            <div class="row">
-                <!--Collage-->
-                <div class="col">
-                    <span>Department:</span>
-                    <select name="Department" class="form-select" aria-label="Default select example">
-                    <option value="Information Technology" selected>Information Technology</option>
-                        <option value="Department of Applied Studies">Department of Applied Studies</option>
-                        <option value="Department of Arts Bahrain">Department of Arts Bahrain</option>
-                    </select>
-                </div>
-                <!--Collage No. -->
-                <div class="col">
-                    <span>Department Number:</span>
-                    <select name="DepNumber" class="form-select" aria-label="Default select example">
-                        <option selected>CS</option>
-                        <option value="Cs">CE</option>
-                        <option value="IS">IS</option>
-                        <option value="CE">LABS</option>
-                    </select>
-                </div>
-                
-                
-            </div>
+    
             <div class="col-md-4">
                     <label for="inputCredit" class="form-label">Instructors :</label>
                     <input name="Instructors" type="text" class="form-control" id="inputCredit">
@@ -362,14 +275,6 @@
                       <hr style="border: 2px solid #25364b ;">
 
                    <div class="row">
-                      
-                <div class="col-md-4">
-                    <label for="inputCredit" class="form-label">Description :</label>
-                    <input name="Description" type="text" class="form-control" id="inputCredit">
-                    </div>
-                  
-                    
-
                     
                     </div>
                 
@@ -415,12 +320,12 @@
         </li>
 
         <li>
-          <a href="#">About Us</a>
+          <a href="About.php">About Us</a>
           <i class="fas fa-regular fa-address-card"></i>
         </li>
 
         <li>
-          <a href="#">Help</a>
+          <a href="Help.php">Help</a>
           <i class="fas fa-question"></i>
         </li>
       </ul>
@@ -435,7 +340,12 @@
 
 </footer>
 
+<style>
+        span{
 
+            color:red;
+        }
+    </style>
 
 
 

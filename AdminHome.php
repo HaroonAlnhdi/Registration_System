@@ -143,27 +143,45 @@
       </div>
 
       <hr style="border: solid; color: black; width: 100%; text-align:center; "/>
-
+      <p style=" color:#25364b; font-size:25px; ">Admin Panel</p>
       <!--Crads-->
       <section id="form">
         <div class="m-1 p-1 border rounded">
       <div class="cards">
         <div class="row ">
-            <a  href="StudentInfo.php">
+            <a  href="AStudentInfo.php">
           <div  class="col ">
-          <a  href="StudentInfo.php">
+          <a  href="AStudentInfo.php">
             <p>ADD Student</p></a>
             <i class="fa fa-book" aria-hidden="true"></i>
           </div>
 
           <div  class="col ">
-          <a  href="StaffInfo.php">
+          <a  href="AStaffInfo.php">
             <p>ADD Staff</p></a>
             <i class="fa fa-book" aria-hidden="true"></i>
           </div>
           <div  class="col ">
-          <a  href="ManageCourses.php">
+          <a  href="AManageCourses.php">
             <p>ADD Courses</p></a>
+            <i class="fa fa-book" aria-hidden="true"></i>
+          </div>
+
+          <div  class="col ">
+          <a  href="AUpdateCourse.php">
+            <p>Update Courses</p></a>
+            <i class="fa fa-book" aria-hidden="true"></i>
+          </div>
+
+          <div  class="col ">
+          <a  href="AUpdateSections.php">
+            <p>Update Section</p></a>
+            <i class="fa fa-book" aria-hidden="true"></i>
+          </div>
+
+          <div  class="col ">
+          <a  href="AReports.php">
+            <p> Reports</p></a>
             <i class="fa fa-book" aria-hidden="true"></i>
           </div>
           
