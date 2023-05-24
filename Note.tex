@@ -1,3 +1,69 @@
-SELECT `CourseID`, `CourseName`, `Code`, `CCredits`, `Time`, `Exame_Date`, `Instructors`, `CSections`, `Fees` FROM `courses`
+<?php
+// Establish a database connection
+$host = 'localhost';
+$user = 'root';
+$password = ' ';
+$database = 'itcs489';
 
-WHERE 1
+$connection = new mysqli($host, $user, $password, $database);
+
+// Check if the connection was successful
+if ($connection->connect_error) {
+    die("Connection failed: " . $connection->connect_error);
+}
+
+// Check if the form is submitted
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Retrieve the form data
+    $courseID = $_POST['courseID'];
+    $date = $_POST['date'];
+    $attendanceData = $_POST['attendance'];
+
+    // Loop through the attendance data and insert records into the database
+    foreach ($attendanceData as $studentID => $status) {
+        // Insert the attendance record into the database
+        $query = "INSERT INTO attendance (StudentID, CourseID, Date, Status) 
+                  VALUES ('$studentID', '$courseID', '$date', '$status')";
+        mysqli_query($connection, $query);
+    }
+
+    // Display a success message
+    echo "Attendance has been recorded successfully!";
+}
+
+// Display the attendance form for the professor
+function displayAttendanceForm($connection, $courseID)
+{
+
+
+
+    
+    // Retrieve the students enrolled in the course from the database
+    $query = "SELECT * FROM student_course WHERE CourseID = '$courseID'";
+    $result = mysqli_query($connection, $query);
+
+    if (mysqli_num_rows($result) > 0) {
+        // Display the form
+        echo "<form method='POST' action=''>";
+        echo "<input type='hidden' name='courseID' value='$courseID'>";
+        echo "<input type='date' name='date' required><br><br>";
+
+        // Display checkboxes for each student
+        while ($row = mysqli_fetch_assoc($result)) {
+            $studentID = $row['Student_ID'];
+            $studentName = $row['FName'] . ' ' . $row['LName'];
+
+            echo "<input type='checkbox' name='attendance[$studentID]' value='Present'>$studentName<br>";
+        }
+
+        echo "<br><input type='submit' value='Submit Attendance'>";
+        echo "</form>";
+    } else {
+        echo "No students enrolled in the course.";
+    }
+}
+
+// Example usage:
+$courseID = "ITCS489#1"; // Replace with the actual course ID
+displayAttendanceForm($connection, $courseID);
+?>
