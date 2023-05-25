@@ -113,8 +113,7 @@ extract($_REQUEST);
 
       <div class="information">
 
-      Name :
-      ID:
+    
 
       <ul class=" log navbar-nav">
       <li class="nav-item active ">

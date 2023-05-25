@@ -1,0 +1,141 @@
+<?php
+require('connection.php');
+
+$gradesW = [
+    "A" => 4.0,
+    "A-" => 3.67,
+    "B+" => 3.33,
+    "B" => 3.0,
+    "B-" => 2.67,
+    "C+" => 2.33,
+    "C" => 2.0,
+    "C-" => 1.67,
+    "D+" => 1.33,
+    "D-" => 1.0,
+    "F" => 0.0,
+];
+
+function selectGrade()
+{
+    global $gradesW;
+    foreach ($gradesW as $grade => $weight) {
+        echo '<option value="' . $weight . '">' . $grade . ' </option>';
+    }
+}
+
+function getCourses()
+{
+    global $db;
+    $stmt = $db->query( "SELECT CourseID, CourseName FROM Professor_course");
+    return $stmt->fetchAll(pdo::FETCH_ASSOC);
+}
+
+function getStudents($courseID, $sectionID)
+{
+    global $db;
+    $stmt = $db->prepare("SELECT Student_ID, FName, LName FROM student_course WHERE CourseID = :courseID AND Section_ID = :sectionID");
+    $stmt->execute(['courseID' => $courseID, 'sectionID' => $sectionID]);
+    return $stmt->fetchAll(pdo::FETCH_ASSOC);
+}
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $courseID = $_POST['course'];
+    $sectionID = $_POST['section'];
+    $studentID = $_POST['student'];
+    $gradeWeight = $_POST['grade'];
+
+    $stmt = $db->prepare("INSERT INTO Grades (StudentID, CourseID, Grade) VALUES (:studentID, :courseID, :gradeWeight)");
+    $stmt->execute(['studentID' => $studentID, 'courseID' => $courseID, 'gradeWeight' => $gradeWeight]);
+
+    header("Location: ".$_SERVER['PHP_SELF']);
+    exit;
+}
+
+$courses = getCourses();
+if ($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['course']) && isset($_GET['section'])) {
+    $courseID = $_GET['course'];
+    $sectionID = $_GET['section'];
+    $students = getStudents($courseID, $sectionID);
+}
+?>
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Grading</title>
+    <!-- Add your CSS links here -->
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css">
+<style> 
+
+</style>
+</head>
+<body>
+<div class="content px-5 py-4">
+
+    <h1 class="px-4 py-4">Course Grading</h1>
+    <div class="grading lg-px-5 lg-py-4">
+        <form action="" method="get">
+            <div class="row row-col-2">
+                <div class="col">
+                    <div class="row ms-1">
+                        <select name="course" class="form-select border-secondary-subtle w-75 me-1" aria-label="Default select example">
+                            <option selected>Course</option>
+                            <?php foreach ($courses as $course): ?>
+                                <option value="<?php echo $course['CourseID']; ?>"><?php echo $course['CourseName']; ?></option>
+                            <?php endforeach; ?>
+                        </select>
+
+                        <select name="section" class="form-select border-secondary-subtle" style="width: 20%" aria-label="Default select example">
+                            <option selected>Section</option>
+                            <option value="1">One</option>
+                            <option value="2">Two</option>
+                            <option value="3">Three</option>
+                            <option value="4">Four</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-lg-4 offset-1">
+                   
+                </div>
+            </div>
+            <button type="submit">View Students</button>
+        </form>
+    </div>
+
+    <?php if (isset($students) && !empty($students)): ?>
+        <div class="student-list lg-mx-4 my-4" style="background-color: #FDF7CF" style="width:85%">
+            <form action="" method="post">
+                <input type="hidden" name="course" value="<?php echo $courseID; ?>">
+                <input type="hidden" name="section" value="<?php echo $sectionID; ?>">
+                <table class="table table-borderless">
+                    <tr>
+                        <th style="width: 8%">ID</th>
+                        <th style="width: 10%">Name</th>
+                        <th class="w-25">Grade</th>
+                    </tr>
+                    <?php foreach ($students as $student): ?>
+                        <tr>
+                            <td><?php echo $student['Student_ID']; ?></td>
+                            <td><?php echo $student['FName'] . ' ' . $student['LName']; ?></td>
+                            <td>
+                                <input type="hidden" name="student" value="<?php echo $student['Student_ID']; ?>">
+                                <select name="grade" class="form-select border-secondary-subtle" style="width: 10%" aria-label="Default select example">
+                                    <option selected></option>
+                                    <?php selectGrade(); ?>
+                                </select>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                </table>
+                <button type="submit">Save Grades</button>
+            </form>
+        </div>
+    <?php endif; ?>
+
+</div>
+</body>
+</html>

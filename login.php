@@ -1,56 +1,53 @@
 
 <?php
-
 session_start();
-$msg="";
-  if(isset($_GET['error']))
-  {  if ($_GET['error']==1)
-    $msg="<span style='color:red;'>Please login first</span>";
-    else
-      $msg="404 error";
-  }
-  echo $msg;
-extract ($_POST);
-if(isset($Signin))
-{
-	try{
-	require('connection.php');
-	$rs=$db->query("select * from users");
-	$id=0;
-	foreach($rs as $row)
-	{
-		//$id=$row[1];
-		if($row[1]==$uname && $pass==$row[2])
-		{
-		$r=$db->query("select id from users where username='$row[1]'");
-         foreach($r as $ro)
-	     $id=$ro[0];
-         $_SESSION['activeUser']=$id;	
-
-
-		if($row[3]=='admin')
-    header("Location: AdminHome.php");
-		else if($row[3]=='student')
-    header("Location: Home.php?stID=$row[1]");	
-    else {
-      header("Location: ProfessorHome.php");
+$msg = "";
+if (isset($_GET['error'])) {
+  if ($_GET['error'] == 1)
+    $msg = "<span style='color:red;'>Please login first</span>";
+  else
+    $msg = "404 error";
+}
+echo $msg;
+extract($_POST);
+if (isset($Signin)) {
+  try {
+    require('connection.php');
+    $rs = $db->query("select * from users");
+    $id = 0;
+    $foundUser = false;
+    foreach ($rs as $row) {
+      if ($row[1] == $uname && $pass == $row[2]) {
+        $r = $db->query("select id from users where username='$row[1]'");
+        foreach ($r as $ro)
+          $id = $ro[0];
+        $_SESSION['activeUser']= $id;
+        if ($row[3] == 'admin')
+          header("Location: AdminHome.php");
+        else if ($row[3] == 'student')
+          header("Location: Home.php?stID=$row[1]");
+        else {
+          header("Location: ProfessorHome.php");
+        }
+        $foundUser = true;
+        break;
+      }
     }
-		}
-        else 
-			 $error_msg=" password or username is invalid ";
-		
-	}
-$db=null;
-}
-catch(PDOException $ex)
-{
-	
-	die($ex->getmessage());
-}
-}
+    $db = null;
+    if (!$foundUser) {
+      echo '<div class="alert alert-danger d-flex align-items-center" role="alert">
+      <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg>
+      <div>
+        Your UserName Or Password is invalid
+      </div>
+    </div>';
+    }
+  } catch (PDOException $ex) {
 
+    die($ex->getmessage());
+  }
+}
 ?>
-
 
 
 
@@ -63,7 +60,7 @@ catch(PDOException $ex)
     <title>Login Page</title>
     <link rel="stylesheet" href="\Project\styless\loginStyle.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Saira Condensed">
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js" integrity="sha384-zYPOMqeu1DAVkHiLqWBUTcbYfZ8osu1Nd6Z89ify25QV9guujx43ITvfi12/QExE" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js" integrity="sha384-zYPOMqeu1DAVkHiLqWBUTcbYfZ8osu1Nd6Z89ify25QV9guujx43ITvfi12/QExE" crossorigin="anonymous"></s>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.min.js" integrity="sha384-Y4oOpwW3duJdCWv5ly8SCFYWqFDsfob/3GkgExXKV4idmbt98QcxXYs9UoXAB7BZ" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
 
@@ -100,7 +97,7 @@ catch(PDOException $ex)
                   <p>Password*</p>
                   <input type="password" class="ue" name="pass" placeholder="Enter Your Password" /><br>
                   <div id="pass_error">Please enter a valid password </div>
-                  <a href="#">Forget Your Password?</a>
+                  <a href="Help.php">Forget Your Password?</a>
                  <!--    <div id="errors" style="display: none;"><?php  echo $error_msg;  ?></div> -->
                   <br />
                   <input type="submit" class="SiginBytton" name="Signin" value="Sign In">

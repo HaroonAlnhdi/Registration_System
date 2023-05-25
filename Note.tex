@@ -67,3 +67,59 @@ function displayAttendanceForm($connection, $courseID)
 $courseID = "ITCS489#1"; // Replace with the actual course ID
 displayAttendanceForm($connection, $courseID);
 ?>
+
+
+
+
+
+
+
+
+
+
+
+دخول
+<?php
+session_start();
+$msg = "";
+if (isset($_GET['error'])) {
+  if ($_GET['error'] == 1)
+    $msg = "<span style='color:red;'>Please login first</span>";
+  else
+    $msg = "404 error";
+}
+echo $msg;
+extract($_POST);
+if (isset($Signin)) {
+  try {
+    require('connection.php');
+    $rs = $db->query("select * from users");
+    $id = 0;
+    $foundUser = false;
+    foreach ($rs as $row) {
+      if ($row[1] == $uname && $pass == $row[2]) {
+        $r = $db->query("select id from users where username='$row[1]'");
+        foreach ($r as $ro)
+          $id = $ro[0];
+        $_SESSION['activeUser']= $id;
+        if ($row[3] == 'admin')
+          header("Location: AdminHome.php");
+        else if ($row[3] == 'student')
+          header("Location: Home.php?stID=$row[1]");
+        else {
+          header("Location: ProfessorHome.php");
+        }
+        $foundUser = true;
+        break;
+      }
+    }
+    $db = null;
+    if (!$foundUser) {
+      echo "<script>alert('Invalid username or password');</script>";
+    }
+  } catch (PDOException $ex) {
+
+    die($ex->getmessage());
+  }
+}
+?>

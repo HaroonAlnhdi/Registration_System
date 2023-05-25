@@ -50,5 +50,10 @@ function pass_verify() {
     }
 }
 
-var m_error = document.getElementById('errors');
+window.onload = function() {
+    var errorsDiv = document.getElementById("errors");
+    if (errorsDiv.innerHTML !== "") {
+      errorsDiv.style.display = "block";
+    }
+  };
 
