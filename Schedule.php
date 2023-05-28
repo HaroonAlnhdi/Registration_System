@@ -1,10 +1,7 @@
 
-<?php 
+<?php
 
-require('auth.php');
-require('connection.php');
-extract($_REQUEST);
-?>
+require("auth.php"); ?>
 
 
 <!doctype html>
@@ -134,78 +131,82 @@ extract($_REQUEST);
   <div class="container">
       <!-- Enter your code here  -->
 
-      <!--Alert-->
-      <div class="alert bg-secondary m-5">
-        <div class="row">
-          <div class="col-sm-1 d-flex"><img src="img/email.png" alt=""></div>
-          <div class="col-sm-11"><p ><span style="color:#ffffff;font-weight:bold">Welcome</span></p></div>
-        </div>
-      </div>
 
       <hr style="border: solid; color: black; width: 100%; text-align:center; "/>
-      <p style=" color:#25364b; font-size:25px; text-align: center ">Quick Access</p>
+      <p style=" color:#25364b; font-size:25px; text-align: center ">  Student Schedule</p>
       <!--Crads-->
       <section id="form">
         <div class="m-1 p-1 border rounded">
-      <div class="cards">
 
 
-                                      <div class="row ">
+                                    <?php
+
+                            
+
+                            $host = 'localhost';
+                            $user = 'root';
+                            $password = '';
+                            $database = 'itcs489';
+
+                            $connection = new mysqli($host, $user, $password, $database);
+
+                            if ($connection->connect_error) {
+                                die("Connection failed: " . $connection->connect_error);
+                            }
 
 
-                                      <div  class="col ">
-                                  <a  href="Registration.php?studentID=<?php echo $stID; ?>">
-                                    <p>Registration</p></a>
-                                    <i class="fa fa-book" aria-hidden="true"></i>
-                                  </div>
+                            $studentID = $_GET['studentID'];
 
 
-                                <div  class="col ">
-                                  <a  href="Schedule.php?studentID=<?php echo $stID; ?>">
-                                    <p>Schedule</p></a>
-                                    <i class="fa fa-book" aria-hidden="true"></i>
-                                  </div>
-                                  
-                                  <div  class="col ">
-                                  <a  href="STranscript.php">
-                                    <p>Transcript</p></a>
-                                    <i class="fa fa-book" aria-hidden="true"></i>
-                                  </div>
+                            $sql = "SELECT `Student_ID`,`CourseID`, `FName`, `LName`, `CName`, `CCode`, `Credits`, `LactureTime`, `Exame_Date`, `instructor`, `Section_ID` FROM `student_course` WHERE Student_ID = $studentID";
 
-                                  <div  class="col ">
-                                  <a  href="https://uobhomesiteprod.s3.me-south-1.amazonaws.com/site-prod/uploads/Academic-Year-2023-2024.pdf">
-                                    <p>Academic Calendar</p></a>
-                                    <i class="fa fa-book" aria-hidden="true"></i>
-                                  </div>
 
-                                  
-                                  <div  class="col ">
-                                <a  href="SCalcGPA.php">
-                                  <p>GPA Calculator</p></a>
-                                  <i class="fa fa-book" aria-hidden="true"></i>
-                                </div>
+                            $result = $connection->query($sql);
+
+
+                            if ($result->num_rows > 0) {
+
                                 
+                                echo "<table><tr><th>Student ID</th><<th>First Name</th><th>Last Name</th><th>Course Name</th><th>Course Code</th><th>Credits</th><th>Lecture Time</th><th>Exam Date</th><th>Instructor</th><th>Section ID</th></tr>";
+
                                 
-                                <div  class="col ">
-                                <a href="SShowAttendance.php?studentID=<?php echo $stID; ?>">
-                                  <p>Attendance</p></a>
-                                  <i class="fa fa-book" aria-hidden="true"></i>
-                                </div>
+                                while($row = $result->fetch_assoc()) {
+                                    echo "<tr><td>" . $row["Student_ID"]. "</td><td>" . $row["FName"]. "</td><td>" . $row["LName"]. "</td><td>" . $row["CName"]. "</td><td>" . $row["CCode"]. "</td><td>" . $row["Credits"]. "</td><td>" . $row["LactureTime"]. "</td><td>" . $row["Exame_Date"]. "</td><td>" . $row["instructor"]. "</td><td>" . $row["Section_ID"]. "</td></tr>";
+                                }
+                                echo "</table>";
 
-                                <div  class="col ">
-                                <a  href="SGrades.php?studentID=<?php echo $stID; ?>">
-                                  <p>Grades</p></a>
-                                  <i class="fa fa-book" aria-hidden="true"></i>
-                                </div>
+                            } else {
+                                echo "No results found for student ID: " . $studentID;
+                            }
 
-                                  
-                                </div>
 
-      </div>
+                            echo "<style>
+                            table {
+                            font-family: Arial, sans-serif;
+                            border-collapse: collapse;
+                            width: 100%;
+                            }
 
-    </div>
+                            td, th {
+                            border: 1px solid #ddd;
+                            padding: 8px;
+                            }
+
+                            th {
+                            background-color: #4CAF50;
+                            color: white;
+                            }
+
+                            tr:nth-child(even) {
+                            background-color: #f2f2f2;
+                            }
+                            </style>";
+
+                            ?>
+
+          </div>
         
-      </section>
+          </section>
 
   </main>
 

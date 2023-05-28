@@ -1,7 +1,8 @@
 
 <?php
 require('connection.php');
-
+$valid=false;
+$error=false;
 $gradesW = [
     "A" => 4.0,
     "A-" => 3.67,
@@ -47,6 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     $stmt = $db->prepare("INSERT INTO Grades (StudentID, CourseID, Grade) VALUES (:studentID, :courseID, :gradeWeight)");
     $stmt->execute(['studentID' => $studentID, 'courseID' => $courseID, 'gradeWeight' => $gradeWeight]);
+    $valid=true;
 
     header("Location: ".$_SERVER['PHP_SELF']);
     exit;
@@ -58,10 +60,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['course']) && isset($_GET
     $sectionID = $_GET['section'];
     $students = getStudents($courseID, $sectionID);
 }
+
+
+
+
 ?>
-
-
-
 
 
 
@@ -202,7 +205,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['course']) && isset($_GET
 
 <!-- start main  -->
   <main style="height:auto;">
-    <div class="container" style="">
+    <div class="container" >
     
 
     
@@ -232,17 +235,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['course']) && isset($_GET
            
         </div>
         <button type="submit" class="btn btn-outline-primary m-2" >View Students</button>
+        <div class="space" style="height: 308px;">
+
+            </div>
     </form>
 </div>
 
-<?php if (isset($students) && !empty($students)): ?>
-    <div class="student-list lg-mx-4 my-4" style="background-color: #819abe" style="width:85%">
+<?php if (isset($students) && !empty($students)):  ?>
+
+ 
+    <div class="student-list lg-mx-4 my-4"  style="width:85%">
         <form action="" method="post">
             <input type="hidden" name="course" value="<?php echo $courseID; ?>">
             <input type="hidden" name="section" value="<?php echo $sectionID; ?>">
-            <table class="table table-borderless">
+            <table class="table table-striped">
+
                 <tr>
-                    <th style="width: 8%">ID</th>
+                    <th style="width: 8% ">ID</th>
                     <th style="width: 10%">Name</th>
                     <th class="w-25">Grade</th>
                 </tr>
@@ -252,27 +261,45 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['course']) && isset($_GET
                         <td><?php echo $student['FName'] . ' ' . $student['LName']; ?></td>
                         <td>
                             <input type="hidden" name="student" value="<?php echo $student['Student_ID']; ?>">
-                            <select name="grade" class="form-select border-secondary-subtle" style="width: 10%" aria-label="Default select example">
-                                <option selected></option>
+                            <select name="grade" name="grade" class="form-select border-secondary-subtle" style="width: 10%" aria-label="Default select example">
+                                
                                 <?php selectGrade(); ?>
                             </select>
                         </td>
                     </tr>
                 <?php endforeach; ?>
             </table>
-            <button type="submit"class="btn btn-success m-2" >Save Grades</button>
+            
+            <button type="submit" name="save" class="btn btn-success m-2" >Save Grades</button>
+            <div class="space" style="height: 250px;">
+
+            </div>
+
+            <!--<?php if ($error) { ?>
+                  <div class="danger" style="font-size:20px; color:red; position:absolute;">Fields Can't be Empty!</div>
+          <?php }?>-->
+
         </form>
     </div>
-<?php endif; ?>
+<?php endif; 
+
+
+?>
 
 </div>
      
      <style>
 
-        table{
+                                    table {
+                                    border: 2px solid ;
+                                    }
 
-            border: 2px solid #000;
-        }
+                                    th, td {
+                                    border-right: 2px solid #000;
+                                    }
+                                    
+
+                                    
      </style>
 
 

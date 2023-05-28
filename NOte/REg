@@ -1,0 +1,197 @@
+<?php
+// connectionect to MySQL database
+require('connection.php');
+           
+
+$host = 'localhost';
+$user = 'root';
+$password = '';
+$database = 'itcs489';
+
+$connection = new mysqli($host, $user, $password, $database);
+
+
+
+// Initialize variables
+$selected_course_id = "";
+$selected_section_id = "";
+$selected_course_name = "";
+$selected_course_code = "";
+$selected_course_credits = "";
+$selected_section_time = "";
+$selected_section_instructor = "";
+$selected_section_exam_date = "";
+$selected_section_exam_time = "";
+$selected_section_exam_rooms = "";
+$message = "";
+
+// Handle add course button click
+if (isset($_POST['add_course'])) {
+    // Check if course is already in schedule
+    $sql = "SELECT * FROM student_course WHERE Student_ID = ? AND CourseID = ?";
+    $stmt = $connection->prepare($sql);
+    $stmt->bind_param("ii", $student_id, $selected_course_id);
+    $student_id = 1; // Replace with actual student ID
+    $selected_course_id = $_POST['selected_course_id'];
+    $stmt->execute();
+    $result = $stmt->get_result();
+    if ($result->num_rows > 0) {
+        $message= "Course is already in schedule";
+    } else {
+        // Check if section is selected
+        if (!empty($selected_section_id)) {
+            // Insert course into schedule
+            $sql = "INSERT INTO student_course (Student_ID, CourseID, CName, CCode, Credits, LactureTime, Exame_Date, instructor, Section_ID) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            $stmt = $connection->prepare($sql);
+            $stmt->bind_param("iissssssi", $student_id, $selected_course_id, $selected_course_name, $selected_course_code, $selected_course_credits, $selected_section_time, $selected_section_exam_date, $selected_section_instructor, $selected_section_id);
+            $student_id = 1; // Replace with actual student ID
+            $selected_course_name = $_POST['selected_course_name'];
+            $selected_course_code = $_POST['selected_course_code'];
+            $selected_course_credits = $_POST['selected_course_credits'];
+            $selected_section_time = $_POST['selected_section_time'];
+            $selected_section_instructor = $_POST['selected_section_instructor'];
+            $selected_section_exam_date = $_POST['selected_section_exam_date'];
+            $selected_section_exam_time = $_POST['selected_section_exam_time'];
+            $selected_section_exam_rooms = $_POST['selected_section_exam_rooms'];
+            $stmt->execute();
+            $message = "Course added toschedule";
+        } else {
+            $message = "Please select a section";
+        }
+    }
+}
+
+// Handle replace course button click
+if (isset($_POST['replace_course'])) {
+    // Confirm course replacement with user
+    $message = "Are you sure you want to replace this course?";
+    $selected_course_id = $_POST['selected_course_id'];
+    $selected_course_name = $_POST['selected_course_name'];
+    $selected_course_code = $_POST['selected_course_code'];
+    $selected_course_credits = $_POST['selected_course_credits'];
+    $selected_section_time = $_POST['selected_section_time'];
+    $selected_section_instructor = $_POST['selected_section_instructor'];
+    $selected_section_exam_date = $_POST['selected_section_exam_date'];
+    $selected_section_exam_time = $_POST['selected_section_exam_time'];
+    $selected_section_exam_rooms = $_POST['selected_section_exam_rooms'];
+}
+
+// Handle confirm replacement button click
+if (isset($_POST['confirm_replace'])) {
+    // Delete current course from schedule
+    $sql = "DELETE FROM student_course WHERE Student_ID = ? AND CourseID = ?";
+    $stmt = $connection->prepare($sql);
+    $stmt->bind_param("ii", $student_id, $selected_course_id);
+    $student_id = 1; // Replace with actual student ID
+    $selected_course_id = $_POST['selected_course_id'];
+    $stmt->execute();
+    
+    // Insertnew course into schedule
+    $sql = "INSERT INTO student_course (Student_ID, CourseID, CName, CCode, Credits, LactureTime, Exame_Date, instructor, Section_ID) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    $stmt = $connection->prepare($sql);
+    $stmt->bind_param("iissssssi", $student_id, $selected_course_id, $selected_course_name, $selected_course_code, $selected_course_credits, $selected_section_time, $selected_section_exam_date, $selected_section_instructor, $selected_section_id);
+    $student_id = 1; // Replace with actual student ID
+    $selected_course_name = $_POST['selected_course_name'];
+    $selected_course_code = $_POST['selected_course_code'];
+    $selected_course_credits = $_POST['selected_course_credits'];
+    $selected_section_time = $_POST['selected_section_time'];
+    $selected_section_instructor = $_POST['selected_section_instructor'];
+    $selected_section_exam_date = $_POST['selected_section_exam_date'];
+    $selected_section_exam_time = $_POST['selected_section_exam_time'];
+    $selected_section_exam_rooms = $_POST['selected_section_exam_rooms'];
+    $selected_section_id = $_POST['selected_section_id'];
+    $stmt->execute();
+    $message = "Course replaced in schedule";
+}
+
+// Handle delete course button click
+if (isset($_POST['delete_course'])){
+    // Confirm course deletion with user
+    $message = "Are you sure you want to delete this course?";
+    $selected_course_id = $_POST['selected_course_id'];
+}
+
+// Handle confirm deletion button click
+if (isset($_POST['confirm_delete'])) {
+    // Delete course from schedule
+    $sql = "DELETE FROM student_course WHERE Student_ID = ? AND CourseID = ?";
+    $stmt = $connection->prepare($sql);
+    $stmt->bind_param("ii", $student_id, $selected_course_id);
+    $student_id = 1; // Replace with actual student ID
+    $selected_course_id = $_POST['selected_course_id'];
+    $stmt->execute();
+    $message = "Course deleted from schedule";
+}
+
+// Retrieve courses from database
+$sql = "SELECT * FROM courses";
+$result = $connection->query($sql);
+
+// Display course selection form
+echo "<form method='post'>";
+echo "Select a course:<br>";
+echo "<select name='selected_course_id' onchange='this.form.submit()'>";
+echo "<option value=''>Select a course</option>";
+while ($row = $result->fetch_assoc()) {
+    echo "<option value='" . $row['CourseID'] . "'";
+    if ($row['CourseID'] == $selected_course_id) {
+        echo " selected";
+        $selected_course_name = $row['CourseName'];
+        $selected_course_code = $row['Code'];
+        $selected_course_credits = $row['CCredits'];
+    }
+    echo ">" . $row['CourseName'] . " - " . $row['Code'] . "</option>";
+}
+echo "</select>";
+echo "</form>";
+
+// If a course is selected, display section selection form
+if (!empty($selected_course_id)) {
+    // Retrieve sections for selected course from database
+    $sql = "SELECT * FROM sections WHERE CourseID = ?";
+    $stmt = $connection->prepare($sql);
+    $stmt->bind_param("i", $selected_course_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    // Display section selection form
+    echo "<form method='post'>";
+    echo "Select a section:<br>";
+    echo "<select name='selected_section_id'>";
+    echo "<option value=''>Select a section</option>";
+    while ($row = $result->fetch_assoc()) {
+        echo "<option value='" . $row['Section_ID'] . "'";
+        if ($row['Section_ID'] == $selected_section_id) {
+            echo " selected";
+            $selected_section_time = $row['Time'];
+            $selected_section_instructor = $row['Instructors'];
+            $selected_section_exam_date = $row['Exame_Date'];
+            $selected_section_exam_time = $row['ExamTime'];
+            $selected_section_exam_rooms = $row['ExamRooms'];
+        }
+        echo ">" . $row['CSections']. " - " . $row['Rooms'] . "</option>";
+    }
+    echo "</select>";
+    
+    // Display add course or replace course button
+    if (isset($_POST['edit_replace'])) {
+        echo "<br><br><button type='submit' name='replace_course'>Replace Course</button>";
+    } else {
+        echo "<br><br><button type='submit' name='add_course'>Add Course</button>";
+    }
+    
+    // Display edit/replace or delete course button
+    echo "<br><br><button type='submit' name='edit_replace'>Edit/Replace Course</button>";
+    echo "<button type='submit' name='delete_course'>Delete Course</button>";
+    echo "</form>";
+}
+
+// Display message
+echo "<br><br>" . $message;
+
+// Display confirmation form for replace or delete course
+if (isset($_POST['replace_course']) || isset($_POST['delete_course'])) {
+    echo "<form method='post'>";
+    echo "<br><br><button type='submit' name='confirm_" . ($_POST['replace_course'] ? "replace" : "delete") . "'>Confirm</button>";
+    echo "<button type='submit";
+}

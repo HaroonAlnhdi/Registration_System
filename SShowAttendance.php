@@ -46,7 +46,7 @@
              <ul class="dropdown">
                <li style="font-weight: bold;">Viewing:</li>
                <ul>
-                 <li><a href="AcademicCalendar.php">Academic Plan</a></li>
+                 <li><a href="https://uobhomesiteprod.s3.me-south-1.amazonaws.com/site-prod/uploads/Academic-Year-2023-2024.pdf">Academic Plan</a></li>
                  <li><a href="Attendance.php">Attendance</a></li>
                  <li><a href="Schedule.php">Schedule</a></li>
                  <li><a href="Financial.php">Financial Information</a></li>
@@ -107,8 +107,7 @@
 
       <div class="information">
 
-      Name :
-      ID:
+     
 
       <ul class=" log navbar-nav">
       <li class="nav-item active ">

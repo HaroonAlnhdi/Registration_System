@@ -1,14 +1,10 @@
 <?php
-// Start the session
 
 require("auth.php");
-$studentID = $_GET['studentID'];
-
-
 
 $host = 'localhost';
 $user = 'root';
-$password = ' ';
+$password = '';
 $database = 'itcs489';
 
 $connection = new mysqli($host, $user, $password, $database);
@@ -17,38 +13,52 @@ if ($connection->connect_error) {
     die("Connection failed: " . $connection->connect_error);
 }
 
-// Function to display attendance records for a student
-function showAttendance($connection)
-{
-    // Get the StudentID from the session
-    // Start the session
-    
-    $studentID = $_GET['studentID'];
+
+$studentID = $_GET['studentID'];
+
+
+$sql = "SELECT `Student_ID`,`CourseID`, `FName`, `LName`, `CName`, `CCode`, `Credits`, `LactureTime`, `Exame_Date`, `instructor`, `Section_ID` FROM `student_course` WHERE Student_ID = $studentID";
+
+
+$result = $connection->query($sql);
+
+
+if ($result->num_rows > 0) {
 
     
-    // Retrieve attendance records for the student from the database
-    $query = "SELECT * FROM attendance WHERE StudentID = '$studentID'";
-    $result = mysqli_query($connection, $query);
+    echo "<table><tr><th>Student ID</th><<th>First Name</th><th>Last Name</th><th>Course Name</th><th>Course Code</th><th>Credits</th><th>Lecture Time</th><th>Exam Date</th><th>Instructor</th><th>Section ID</th></tr>";
 
-    if (mysqli_num_rows($result) > 0) {
-        // Display attendance records
-        echo "<h2>Attendance Records</h2>";
-        echo "<table>";
-        echo "<tr><th>Date</th><th>Status</th></tr>";
-
-        while ($row = mysqli_fetch_assoc($result)) {
-            $date = $row['Date'];
-            $status = $row['Status'];
-
-            echo "<tr><td>$date</td><td>$status</td></tr>";
-        }
-
-        echo "</table>";
-    } else {
-        echo "No attendance records found.";
+    
+    while($row = $result->fetch_assoc()) {
+        echo "<tr><td>" . $row["Student_ID"]. "</td><td>" . $row["FName"]. "</td><td>" . $row["LName"]. "</td><td>" . $row["CName"]. "</td><td>" . $row["CCode"]. "</td><td>" . $row["Credits"]. "</td><td>" . $row["LactureTime"]. "</td><td>" . $row["Exame_Date"]. "</td><td>" . $row["instructor"]. "</td><td>" . $row["Section_ID"]. "</td></tr>";
     }
+    echo "</table>";
+
+} else {
+    echo "No results found for student ID: " . $studentID;
 }
 
-// Example usage:
-showAttendance($connection);
+
+echo "<style>
+table {
+  font-family: Arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+th {
+  background-color: #4CAF50;
+  color: white;
+}
+
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+</style>";
+
 ?>

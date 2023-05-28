@@ -132,150 +132,150 @@
 
 <!-- end navigation -->
 
-<!-- start main  -->
-  <main style="height:auto;">
-  <section id="form">
-        <div class="m-5 p-5 border rounded">
-        <p style="  font-weight: bold; color:#25364b;  font-size:25px; text-align: center; ">Student Attendance</p>
-        <hr style="border: #25364b solid 2px;">
-        <?php
+                      <!-- start main  -->
+                        <main style="height:auto;">
+                        <section id="form">
+                              <div class="m-5 p-5 border rounded">
+                              <p style="  font-weight: bold; color:#25364b;  font-size:25px; text-align: center; ">Student Attendance</p>
+                              <hr style="border: #25364b solid 2px;">
+                              <?php
 
-$host = 'localhost';
-$user = 'root';
-$password = ' ';
-$database = 'itcs489';
+                      $host = 'localhost';
+                      $user = 'root';
+                      $password = ' ';
+                      $database = 'itcs489';
 
-$connection = new mysqli($host, $user, $password, $database);
+                      $connection = new mysqli($host, $user, $password, $database);
 
-// Check if the connection was successful
-if ($connection->connect_error) {
-    die("Connection failed: " . $connection->connect_error);
-}
+                      // Check if the connection was successful
+                      if ($connection->connect_error) {
+                          die("Connection failed: " . $connection->connect_error);
+                      }
 
-// Display the attendance form for the professor
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Retrieve the selected course ID
-    $courseID = $_POST['courseID'];
-    displayAttendanceForm($connection, $courseID);
-} else {
-    // Retrieve the courses available for the professor
-    $query = "SELECT * FROM professor_course WHERE PID = '202008888'"; // Replace '202008888' with the actual professor ID
-    $result = mysqli_query($connection, $query);
+                      // Display the attendance form for the professor
+                      if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                          // Retrieve the selected course ID
+                          $courseID = $_POST['courseID'];
+                          displayAttendanceForm($connection, $courseID);
+                      } else {
+                          // Retrieve the courses available for the professor
+                          $query = "SELECT * FROM professor_course WHERE PID = '202008888'"; // Replace '202008888' with the actual professor ID
+                          $result = mysqli_query($connection, $query);
 
-    if (mysqli_num_rows($result) > 0) {
-        
-        echo "<form method='POST' action=''>";
-        echo "<P class='pp'>Select a course:</p> ";
-        echo "<select name='courseID'>";
-        while ($row = mysqli_fetch_assoc($result)) {
-            $courseID = $row['CourseID'];
-            $courseName = $row['CourseName'];
-            echo "<option value='$courseID'>$courseName</option>";
-        }
-        echo "</select><br><br>";
-        echo "<input type='submit' class='btn btn-primary' value='Select Course'>";
-        echo "</form>";
-    } else {
-        echo "No courses available for the professor.";
-    }
-}
+                          if (mysqli_num_rows($result) > 0) {
+                              
+                              echo "<form method='POST' action=''>";
+                              echo "<P class='pp'>Select a course:</p> ";
+                              echo "<select name='courseID'>";
+                              while ($row = mysqli_fetch_assoc($result)) {
+                                  $courseID = $row['CourseID'];
+                                  $courseName = $row['CourseName'];
+                                  echo "<option value='$courseID'>$courseName</option>";
+                              }
+                              echo "</select><br><br>";
+                              echo "<input type='submit' class='btn btn-primary' value='Select Course'>";
+                              echo "</form>";
+                          } else {
+                              echo "No courses available for the professor.";
+                          }
+                      }
 
-// Display the attendance form for the selected course
-function displayAttendanceForm($connection, $courseID)
-{
-    // Retrieve the students enrolled in the course from the database
-    $query = "SELECT * FROM student_course WHERE CourseID = '$courseID'";
-    $result = mysqli_query($connection, $query);
+                      // Display the attendance form for the selected course
+                      function displayAttendanceForm($connection, $courseID)
+                      {
+                          // Retrieve the students enrolled in the course from the database
+                          $query = "SELECT * FROM student_course WHERE CourseID = '$courseID'";
+                          $result = mysqli_query($connection, $query);
 
-    if (mysqli_num_rows($result) > 0) {
-        // Display the table
-        echo "<table>";
-        echo "<thead>";
-        echo "<tr>";
-        echo "<th>Student ID</th>";
-        echo "<th>Student Name</th>";
-        echo "<th>Status</th>";
-        echo "</tr>";
-        echo "</thead>";
-        echo "<tbody>";
+                          if (mysqli_num_rows($result) > 0) {
+                              // Display the table
+                              echo "<table>";
+                              echo "<thead>";
+                              echo "<tr>";
+                              echo "<th>Student ID</th>";
+                              echo "<th>Student Name</th>";
+                              echo "<th>Status</th>";
+                              echo "</tr>";
+                              echo "</thead>";
+                              echo "<tbody>";
 
-        // Display rows for each student
-        while ($row = mysqli_fetch_assoc($result)) {
-            $studentID = $row['Student_ID'];
-            $studentName = $row['FName'] . ' ' . $row['LName'];
+                              // Display rows for each student
+                              while ($row = mysqli_fetch_assoc($result)) {
+                                  $studentID = $row['Student_ID'];
+                                  $studentName = $row['FName'] . ' ' . $row['LName'];
 
-            echo "<tr>";
-            echo "<td>$studentID</td>";
-            echo "<td>$studentName</td>";
-            echo "<td><input type='checkbox' name='attendance[$studentID]' value='Present'></td>";
-            echo "</tr>";
-        }
+                                  echo "<tr>";
+                                  echo "<td>$studentID</td>";
+                                  echo "<td>$studentName</td>";
+                                  echo "<td><input type='checkbox' name='attendance[$studentID]' value='Present'></td>";
+                                  echo "</tr>";
+                              }
 
-        echo "</tbody>";
-        echo "</table>";
+                              echo "</tbody>";
+                              echo "</table>";
 
-        // Display the form submit button
-        echo "<br><input type='submit' class='btn btn-success' value='Submit Attendance'>";
-        echo "</form>";
-    } else {
-        echo "No students enrolled in the course.";
-    }
-}
-?>
-<div class="space" style="height: 83px;">
-
-
-
-</div>
-
-<!-- Add the following style to the head section -->
-<style>
-    
-    select {
-      font-size: 16px;
-      padding: 8px 16px;
-      border-radius: 4px;
-      border: 1px solid #ccc;
-      width: 100%;
-      max-width: 400px;
-      box-sizing: border-box;
-      margin-bottom: 16px;
-    }
+                              // Display the form submit button
+                              echo "<br><input type='submit' class='btn btn-success' value='Submit Attendance'>";
+                              echo "</form>";
+                          } else {
+                              echo "No students enrolled in the course.";
+                          }
+                      }
+                      ?>
+                      <div class="space" style="height: 83px;">
 
 
-        .pp{
-                
-                color: #25364b;
-                font-size: 20px;
-                font-weight: bold;
-        }
 
-    table {
-        border-collapse: collapse;
-        width: 100%;
-    }
+                      </div>
 
-    th, td {
-        text-align: left;
-        padding: 8px;
-        border-bottom: 1px solid #ddd;
-    }
-
-    th {
-        background-color: #4CAF50;
-        color: white;
-    }
-
-    tr:nth-child(even) {
-        background-color: #f2f2f2;
-    }
-</style>
+                      <!-- Add the following style to the head section -->
+                      <style>
+                          
+                          select {
+                            font-size: 16px;
+                            padding: 8px 16px;
+                            border-radius: 4px;
+                            border: 1px solid #ccc;
+                            width: 100%;
+                            max-width: 400px;
+                            box-sizing: border-box;
+                            margin-bottom: 16px;
+                          }
 
 
-        </div>
-  </section>
+                              .pp{
+                                      
+                                      color: #25364b;
+                                      font-size: 20px;
+                                      font-weight: bold;
+                              }
 
-  </main>
+                          table {
+                              border-collapse: collapse;
+                              width: 100%;
+                          }
+
+                          th, td {
+                              text-align: left;
+                              padding: 8px;
+                              border-bottom: 1px solid #ddd;
+                          }
+
+                          th {
+                              background-color: #4CAF50;
+                              color: white;
+                          }
+
+                          tr:nth-child(even) {
+                              background-color: #f2f2f2;
+                          }
+                      </style>
+
+
+                              </div>
+                        </section>
+
+                        </main>
 
 <!-- end main  -->
 
