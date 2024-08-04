@@ -28,6 +28,6 @@
 </p>
 
 <p align="center">
-<img src="img/Sattende.png" alt="drawing" width="200"/>
+<img src="img/Sattende.png" alt="drawing" />
 </p>
 
