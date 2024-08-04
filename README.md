@@ -20,6 +20,10 @@
 </p>
 
 <p align="center">
+<img src="img/5.png" alt="drawing" />
+</p>
+
+<p align="center">
 <img src="img/AddStudent.png" alt="drawing" />
 </p>
 
@@ -29,5 +33,9 @@
 
 <p align="center">
 <img src="img/Sattende.png" alt="drawing" />
+</p>
+
+<p align="center">
+<img src="img/A.png" alt="drawing" />
 </p>
 
