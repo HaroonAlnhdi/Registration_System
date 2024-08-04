@@ -1,30 +1,30 @@
 ## Rgistation System
 
 <p align="center">
-<img src="img/login.png" alt="drawing" width="200"/>
+<img src="img/login.png" alt="drawing" />
 </p>
 
 <p align="center">
-<img src="img/AdminHome.png" alt="drawing" width="200"/>
+<img src="img/AdminHome.png" alt="drawing" />
 </p>
 
 <p align="center">
-<img src="img/Ac.png" alt="drawing" width="200"/>
+<img src="img/Ac.png" alt="drawing" />
 </p>
 <p align="center">
-<img src="img/StuGrade.png" alt="drawing" width="200"/>
-</p>
-
-<p align="center">
-<img src="img/AddStaff.png" alt="drawing" width="200"/>
+<img src="img/StuGrade.png" alt="drawing" />
 </p>
 
 <p align="center">
-<img src="img/AddStudent.png" alt="drawing" width="200"/>
+<img src="img/AddStaff.png" alt="drawing" />
 </p>
 
 <p align="center">
-<img src="img/Help.png" alt="drawing" width="200"/>
+<img src="img/AddStudent.png" alt="drawing" />
+</p>
+
+<p align="center">
+<img src="img/Help.png" alt="drawing" />
 </p>
 
 <p align="center">
